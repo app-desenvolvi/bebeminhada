@@ -20,6 +20,10 @@
     .nav-link:hover::after, .nav-link:focus-visible::after { width:100%; }
     .cta-button { display:inline-flex; align-items:center; justify-content:center; gap:.55rem; border-radius:999px; padding:.9rem 1.25rem; font-weight:700; color:#fff; transition:transform .2s ease, box-shadow .2s ease; }
     .cta-button:hover { transform:translateY(-2px); box-shadow:0 12px 24px rgba(59,42,99,.16); }
+    /* Os dois botões principais da página: inscrição (coral) e patrocínio (roxo) */
+    .cta-grande { padding:1.15rem 1.6rem; font-size:1.12rem; line-height:1.25; text-align:center; box-shadow:0 10px 24px rgba(59,42,99,.18); }
+    .cta-inscricao { background:var(--coral); }
+    .cta-patrocinio { background:var(--ink); }
     a:focus-visible, button:focus-visible { outline:3px solid var(--coral); outline-offset:4px; }
     .eyebrow { font-size:13px; font-weight:700; letter-spacing:.16rem; text-transform:uppercase; }
     h1, h2, h3 { font-weight:700; margin:0; }
@@ -47,25 +51,28 @@
   <!-- Menu -->
   <header class="topbar fixed top-0 z-50 w-full">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-      <a href="#topo" class="text-sm font-bold" style="letter-spacing:.08rem">BEBÊMINHADA SOLIDÁRIA · 2026</a>
-      <nav aria-label="Navegação principal" class="hidden items-center gap-7 md:flex">
+      <a href="#topo" class="whitespace-nowrap text-sm font-bold" style="letter-spacing:.08rem">BEBÊMINHADA SOLIDÁRIA · 2026</a>
+      <!-- Menu horizontal só de 1280px para cima (com 2 botões de ação não cabe em tablet/notebook pequeno): abaixo disso, menu hambúrguer -->
+      <nav aria-label="Navegação principal" class="hidden items-center gap-5 whitespace-nowrap xl:flex xl:gap-7">
         <a href="#causa" class="nav-link">A causa</a>
         <a href="#experiencia" class="nav-link">A experiência</a>
         <a href="#visibilidade" class="nav-link">Visibilidade</a>
         <a href="#patrocinio" class="nav-link">Patrocínio</a>
-        <a href="https://wa.me/5512992009404?text=Quero%20contribuir%20com%20a%20Beb%C3%AAminhada%202026%20sendo%20um%20patrocinador" target="_blank" rel="noopener noreferrer" class="cta-button" style="background:var(--coral)">Seja um patrocinador</a>
+        <a href="https://app.desenvolvi.site/?page=inscricao" class="cta-button cta-inscricao">Inscreva-se</a>
+        <a href="https://wa.me/5512992009404?text=Quero%20contribuir%20com%20a%20Beb%C3%AAminhada%202026%20sendo%20um%20patrocinador" target="_blank" rel="noopener noreferrer" class="cta-button cta-patrocinio">Seja um patrocinador</a>
       </nav>
-      <button id="menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav" class="rounded-full p-2 md:hidden">
+      <button id="menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav" class="rounded-full p-2 xl:hidden">
         <i data-lucide="menu" aria-hidden="true"></i><span class="sr-only">Abrir menu</span>
       </button>
     </div>
-    <nav id="mobile-nav" aria-label="Navegação móvel" class="hidden border-t border-[#3b2a6320] px-5 pb-5 md:hidden">
+    <nav id="mobile-nav" aria-label="Navegação móvel" class="hidden border-t border-[#3b2a6320] px-5 pb-5 xl:hidden">
       <div class="flex flex-col gap-4 pt-4 font-medium">
         <a href="#causa">A causa</a>
         <a href="#experiencia">A experiência</a>
         <a href="#visibilidade">Visibilidade</a>
         <a href="#patrocinio">Patrocínio</a>
-        <a href="https://wa.me/5512992009404?text=Quero%20contribuir%20com%20a%20Beb%C3%AAminhada%202026%20sendo%20um%20patrocinador" target="_blank" rel="noopener noreferrer" class="cta-button w-full" style="background:var(--coral)">Seja um patrocinador</a>
+        <a href="https://app.desenvolvi.site/?page=inscricao" class="cta-button w-full cta-inscricao">Faça sua inscrição, participe!</a>
+        <a href="https://wa.me/5512992009404?text=Quero%20contribuir%20com%20a%20Beb%C3%AAminhada%202026%20sendo%20um%20patrocinador" target="_blank" rel="noopener noreferrer" class="cta-button w-full cta-patrocinio">Seja um patrocinador</a>
       </div>
     </nav>
   </header>
@@ -82,7 +89,10 @@
           <img src="Logo.png" alt="Logo oficial da Bebêminhada Solidária" onerror="this.style.display='none'" class="reveal-delay mx-auto mb-8 h-auto w-72 max-w-full object-contain sm:w-96 lg:mx-0 lg:w-[27rem]">
           <h1 class="reveal-delay mb-6 leading-[.98]" style="font-size:clamp(2.4rem,6vw,4.5rem);letter-spacing:-.055em">Cada passo transforma.</h1>
           <p class="reveal-delay max-w-xl" style="color:var(--body);font-size:19px;line-height:1.55">Uma caminhada que conecta famílias, marcas e solidariedade.</p>
-          <a href="https://wa.me/5512992009404?text=Quero%20contribuir%20com%20a%20Beb%C3%AAminhada%202026%20sendo%20um%20patrocinador" target="_blank" rel="noopener noreferrer" class="cta-button reveal-delay mt-9" style="background:var(--ink)">Quero apoiar essa causa</a>
+          <div class="reveal-delay mt-9 flex max-w-md flex-col gap-3">
+            <a href="https://app.desenvolvi.site/?page=inscricao" class="cta-button cta-grande cta-inscricao"><i data-lucide="ticket" aria-hidden="true"></i>Faça sua inscrição, participe!</a>
+            <a href="https://wa.me/5512992009404?text=Quero%20contribuir%20com%20a%20Beb%C3%AAminhada%202026%20sendo%20um%20patrocinador" target="_blank" rel="noopener noreferrer" class="cta-button cta-grande cta-patrocinio"><i data-lucide="handshake" aria-hidden="true"></i>Apoie essa ideia, seja patrocinador!</a>
+          </div>
         </div>
         <div class="relative mx-auto w-full max-w-3xl">
           <div class="hero-orb absolute -right-4 -top-5 h-28 w-28 rounded-full bg-[#f58634]"></div>
@@ -234,7 +244,10 @@
         <p class="eyebrow" style="color:var(--sage)">Convite à parceria</p>
         <h2 class="mx-auto mt-5 max-w-3xl text-white">Faça parte de uma história que as famílias vão lembrar.</h2>
         <p class="mx-auto mt-6 max-w-2xl" style="color:#f3ecfb;font-size:19px;line-height:1.55">Cada passo conta. Cada família transforma. Juntos, fazemos a diferença.</p>
-        <a href="https://wa.me/5512992009404?text=Quero%20contribuir%20com%20a%20Beb%C3%AAminhada%202026%20sendo%20um%20patrocinador" target="_blank" rel="noopener noreferrer" class="cta-button mt-9" style="background:var(--coral)">Seja um patrocinador</a>
+        <div class="mx-auto mt-9 flex max-w-2xl flex-col gap-3 sm:flex-row sm:justify-center">
+          <a href="https://app.desenvolvi.site/?page=inscricao" class="cta-button cta-grande cta-inscricao sm:flex-1"><i data-lucide="ticket" aria-hidden="true"></i>Faça sua inscrição, participe!</a>
+          <a href="https://wa.me/5512992009404?text=Quero%20contribuir%20com%20a%20Beb%C3%AAminhada%202026%20sendo%20um%20patrocinador" target="_blank" rel="noopener noreferrer" class="cta-button cta-grande sm:flex-1" style="background:#fff;color:var(--ink)"><i data-lucide="handshake" aria-hidden="true"></i>Apoie essa ideia, seja patrocinador!</a>
+        </div>
         <p class="mt-5 font-medium" style="color:var(--sage)">Fale com a nossa equipe</p>
         <a href="tel:+5512992009404" class="mt-1 inline-block text-[19px] font-bold text-white">(12) 9 9200-9404</a>
       </div>
