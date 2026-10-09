@@ -380,7 +380,6 @@
   const tbody = document.querySelector("#tabela tbody");
   const td = (t) => `<td class="px-5 py-4" style="color:var(--ink)">${t}</td>`;
   tbody.innerHTML =
-    `<tr><th class="px-5 py-4 font-bold" style="color:var(--ink)">Investimento</th>${["R$ 1.500","R$ 1.000","R$ 500"].map(p => `<td class="px-5 py-4 font-bold" style="color:var(--ink)">${p}</td>`).join("")}</tr>` +
     linhas.map(([nome, ...v]) => `<tr><th class="px-5 py-4 font-medium" style="color:var(--ink)">${nome}</th>${v.map(x => td(x ? "✓" : "—")).join("")}</tr>`).join("");
 
   // Contagem regressiva até o evento (8/11/2026, 8h30, horário de Brasília)
