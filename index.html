@@ -190,6 +190,13 @@
           <div id="contagem" class="mt-6 hidden"><span class="chip"><i data-lucide="timer" class="h-4 w-4" aria-hidden="true"></i><span id="contagem-texto"></span></span></div>
         </div>
 
+        <!-- Aviso só para quem abriu pelo navegador embutido do Instagram/Facebook (a página de inscrição/pagamento pode travar lá) -->
+        <div id="aviso-navegador" class="mx-auto mt-10 hidden max-w-3xl rounded-[1.25rem] p-5 text-center" style="background:#fff3d1;border:2px solid #f58634;color:var(--ink)" role="note">
+          <p class="font-bold" style="font-size:17px">Você está no navegador do Instagram</p>
+          <p class="mt-2" style="color:var(--body);line-height:1.5">Para fazer a inscrição e o pagamento sem travar, toque nos <strong>três pontinhos (⋯)</strong> no canto da tela e escolha <strong>“Abrir no navegador”</strong> (ou “Abrir no Chrome/Safari”). Depois é só voltar a esta página e tocar no botão.</p>
+          <button type="button" id="aviso-copiar" class="cta-button mt-4" style="background:#fff;color:var(--ink);border:2px solid #f58634">Copiar o link da página</button>
+          <p id="aviso-copiado" class="mt-2 hidden" style="color:#4f8f1f;font-weight:600">Link copiado! Cole no seu navegador.</p>
+        </div>
         <!-- Duas formas de participar -->
         <div class="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-2">
           <article class="soft-card flex flex-col rounded-[1.75rem] p-8" style="background:var(--sand);border-color:#f5863466">
@@ -406,5 +413,26 @@
     nav.querySelectorAll("a").forEach(a => a.addEventListener("click", fechar));
   });
 </script>
-</body>
+<script>
+  // Fallback do Instagram: o navegador embutido (Instagram/Facebook) pode travar a página de compra do kit.
+  // Mostra o aviso "Abrir no navegador" só nesses casos.
+  (function () {
+    try {
+      var ua = navigator.userAgent || '';
+      if (!/Instagram|FBAN|FBAV|FB_IAB/i.test(ua)) return;
+      var aviso = document.getElementById('aviso-navegador');
+      if (!aviso) return;
+      aviso.classList.remove('hidden');
+      var btn = document.getElementById('aviso-copiar');
+      var ok = document.getElementById('aviso-copiado');
+      if (btn) btn.addEventListener('click', function () {
+        var url = location.href.split('#')[0];
+        function pronto() { if (ok) ok.classList.remove('hidden'); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(pronto, function () { window.prompt('Copie o link:', url); });
+        } else { window.prompt('Copie o link:', url); }
+      });
+    } catch (e) {}
+  })();
+</script></body>
 </html>
