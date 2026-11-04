@@ -15,7 +15,7 @@
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body { margin:0; color:var(--ink); font-family:"DM Sans",sans-serif; background:var(--cream); }
-    .section-anchor { scroll-margin-top: 6.5rem; }
+    .section-anchor { scroll-margin-top: 9.5rem; }
     .topbar { backdrop-filter: blur(16px); background: rgba(255,253,247,.92); border-bottom: 1px solid rgba(59,42,99,.1); } .topbar::after { content:""; display:block; height:4px; background:linear-gradient(90deg,#ffc928 0 20%,#f58634 20% 40%,#2f9bd8 40% 60%,#7ac143 60% 80%,#cc66ff 80%); }
     .nav-link { position:relative; font-weight:500; }
     .nav-link::after { content:""; position:absolute; left:0; bottom:-5px; height:2px; width:0; background:var(--coral); transition:width .2s ease; }
@@ -55,6 +55,10 @@
 
   <!-- Menu -->
   <header class="topbar fixed top-0 z-50 w-full">
+    <!-- Faixa de aviso (apague este bloco inteiro para remover) -->
+    <div id="faixa-aviso" class="px-4 py-2 text-center text-white" style="background:var(--ink);font-size:13px;line-height:1.35" role="note">
+      <strong>Vendas dos kits solidários encerradas.</strong> A inscrição gratuita continua aberta! No dia do evento, quem quiser ajudar a Guadalupe poderá contribuir por <strong>QR Code</strong>. <a href="#participe" class="font-bold underline underline-offset-2" style="color:#ffc928">Inscreva-se</a>
+    </div>
     <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
       <a href="#topo" class="whitespace-nowrap text-sm font-bold" style="letter-spacing:.08rem">BEBÊMINHADA SOLIDÁRIA · 2026</a>
       <!-- Menu horizontal só de 1280px para cima; abaixo disso, menu hambúrguer -->
@@ -85,9 +89,7 @@
   <main id="topo">
 
     <!-- ============ HERO ============ -->
-    <section class="relative pt-28">
-      <div class="absolute left-[-10rem] top-24 h-80 w-80 rounded-full bg-[#7ac14366] blur-3xl"></div>
-      <div class="absolute right-[-8rem] top-20 h-72 w-72 rounded-full bg-[#f5863430] blur-3xl"></div>
+    <section class="relative pt-40 sm:pt-36">
       <div class="relative mx-auto grid max-w-7xl items-center gap-10 px-5 pb-20 pt-10 lg:grid-cols-[.8fr_1.2fr] lg:px-8 lg:pb-28 lg:pt-16">
         <div class="max-w-2xl">
           <img src="Logo.png" alt="Logo oficial da Bebêminhada Solidária" onerror="this.style.display='none'" class="reveal mx-auto mb-6 h-auto w-60 max-w-full object-contain sm:w-72 lg:mx-0">
