@@ -6,7 +6,7 @@
   <title>Bebêminhada Solidária 2026</title>
   <link rel="icon" type="image/png" href="ICON_Bebeminhada.png">
   <link rel="apple-touch-icon" href="ICON_Bebeminhada.png">
-  <meta name="description" content="8 de novembro de 2026, a partir das 8h30, na Praça Ulysses Guimarães (Parque Res. Aquarius), em São José dos Campos. Uma caminhada em família em benefício da Associação Guadalupe.">
+  <meta name="description" content="A 2ª Bebêminhada Solidária aconteceu em 8 de novembro de 2026, na Praça Ulysses Guimarães, em São José dos Campos. Veja quem caminhou com a gente e envie suas fotos e vídeos.">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
@@ -43,6 +43,75 @@
     .chip { display:inline-flex; align-items:center; gap:.5rem; border-radius:999px; background:#fff; border:1px solid var(--line); padding:.5rem .9rem; font-size:15px; font-weight:600; }
     .chip svg { color:var(--terra); }
     #tabela tbody tr:nth-child(odd) { background:var(--sand); }
+    /* ===== MOSAICO (fotos e vídeos do evento) ===== */
+    .mz[hidden], .mz-modal[hidden] { display:none; }
+    .mz-card { background:#fff; border:1px solid var(--line); border-radius:1.75rem; padding:1.5rem; max-width:44rem; margin:2.5rem auto 0; box-shadow:0 16px 40px rgba(59,42,99,.07); }
+    .mz-check { display:flex; gap:.75rem; align-items:flex-start; padding:.8rem .9rem; border-radius:1rem; background:var(--cream); border:1px solid var(--line); margin-top:.75rem; cursor:pointer; font-size:15px; line-height:1.45; color:var(--body); }
+    .mz-check input { flex:none; width:22px; height:22px; margin-top:2px; accent-color:var(--coral); }
+    .mz-hp { position:absolute; left:-9999px; width:1px; height:1px; opacity:0; }
+    .mz-detalhes { margin-top:.9rem; font-size:14px; line-height:1.5; color:var(--body); }
+    .mz-detalhes summary { cursor:pointer; font-weight:700; color:var(--ink); }
+    .mz-detalhes p { margin:.6rem 0 0; }
+    .mz-acoes { margin-top:1.25rem; text-align:center; }
+    .mz-acoes .cta-button { width:100%; max-width:26rem; border:0; cursor:pointer; font-family:inherit; }
+    .mz-acoes .cta-button[disabled] { opacity:.45; cursor:not-allowed; transform:none; box-shadow:none; }
+    .mz-dica { margin:.75rem 0 0; font-size:14px; line-height:1.45; color:var(--body); }
+    .mz-fila { list-style:none; margin:1rem 0 0; padding:0; display:grid; gap:.5rem; }
+    .mz-item { position:relative; overflow:hidden; border:1px solid var(--line); border-radius:.9rem; padding:.6rem .8rem .75rem; background:var(--cream); font-size:14px; }
+    .mz-item-topo { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.25rem .75rem; }
+    .mz-nome { min-width:0; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:600; }
+    .mz-status { color:var(--body); }
+    .mz-item.ok .mz-status { color:#4f8f1f; font-weight:700; }
+    .mz-item.erro .mz-status { color:#b3261e; font-weight:700; }
+    .mz-barra { position:absolute; left:0; bottom:0; height:4px; width:100%; background:rgba(59,42,99,.08); }
+    .mz-barra i { display:block; height:100%; width:0; background:var(--coral); transition:width .25s ease; }
+    .mz-item.ok .mz-barra i { background:var(--sage); }
+    .mz-tentar { flex:none; border:0; border-radius:999px; background:var(--ink); color:#fff; font:inherit; font-weight:700; padding:.3rem .8rem; cursor:pointer; }
+    .mz-moldura { max-height:min(34rem, 70vh); overflow-y:auto; margin-top:1.25rem; padding:6px; border:7px solid #fff; border-radius:2rem; background:var(--sand); box-shadow:0 20px 50px rgba(59,42,99,.18); }
+    .mz-moldura:has(.mz-grade:empty) { display:none; }
+    .mz-grade { display:grid; grid-template-columns:repeat(auto-fill, minmax(96px, 1fr)); grid-auto-flow:dense; gap:6px; margin:0; }
+    @media (min-width:640px) { .mz-grade { grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:8px; } }
+    .mz-tile { position:relative; aspect-ratio:1; border:0; padding:0; border-radius:14px; overflow:hidden; cursor:pointer; background:#ffe3c9; }
+    .mz-tile:nth-child(5n+2) { background:#e4f3d6; }
+    .mz-tile:nth-child(5n+3) { background:#d9ecfa; }
+    .mz-tile:nth-child(5n+4) { background:#efdcff; }
+    .mz-tile:nth-child(5n) { background:#fff0b8; }
+    .mz-big { grid-column:span 2; grid-row:span 2; }
+    .mz-tile img { display:block; width:100%; height:100%; object-fit:cover; transition:transform .35s ease; }
+    .mz-tile:hover img { transform:scale(1.06); }
+    .mz-play { position:absolute; right:8px; bottom:8px; display:flex; align-items:center; justify-content:center; width:30px; height:30px; padding-left:2px; border-radius:50%; background:rgba(59,42,99,.85); color:#fff; font-size:12px; }
+    .mz-new { animation:mzpop .55s cubic-bezier(.2,.9,.3,1.2) both; }
+    @keyframes mzpop { from { opacity:0; transform:scale(.6) rotate(-4deg); } to { opacity:1; transform:none; } }
+    .mz-vazio { margin:2rem 0 0; text-align:center; color:var(--body); font-size:17px; }
+    .mz-modal { position:fixed; inset:0; z-index:100; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; padding:1rem; background:rgba(30,20,50,.9); }
+    .mz-modal-corpo { width:min(92vw, 900px); max-height:76vh; display:flex; align-items:center; justify-content:center; }
+    .mz-modal-corpo img { max-width:100%; max-height:76vh; border-radius:12px; object-fit:contain; }
+    .mz-modal-corpo iframe { width:100%; height:min(76vh, 560px); border:0; border-radius:12px; background:#000; }
+    .mz-modal-barra { display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; }
+    .mz-btn { display:inline-flex; align-items:center; gap:.4rem; border:0; border-radius:999px; padding:.65rem 1.1rem; font:inherit; font-weight:700; font-size:15px; cursor:pointer; background:#fff; color:var(--ink); text-decoration:none; }
+    .mz-btn.perigo { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.5); }
+    .mz-btn.perigo.confirmar { background:#b3261e; border-color:#b3261e; }
+    .mz-fechar { position:absolute; top:12px; right:12px; width:44px; height:44px; justify-content:center; padding:0; }
+    /* ===== QUEM APOIA A CAUSA ===== */
+    .ap-faixa { display:inline-flex; align-items:center; justify-content:center; border-radius:999px; padding:.55rem 1.6rem; font-weight:800; font-size:clamp(1.05rem,2.2vw,1.35rem); letter-spacing:-.01em; }
+    .ap-ouro { background:#f2c14e; color:var(--ink); }
+    .ap-prata { background:#cfd4de; color:var(--ink); }
+    .ap-bronze { background:#dba66c; color:var(--ink); }
+    .ap-parceiro { background:var(--sage); color:#fff; }
+    .ap-grade { display:grid; gap:12px; margin-top:1.5rem; justify-content:center; grid-template-columns:repeat(2, minmax(0, 1fr)); }
+    .ap-grade.ap-g-ouro { grid-template-columns:repeat(1, minmax(0, 1fr)); max-width:60rem; margin-left:auto; margin-right:auto; }
+    .ap-grade.ap-g-prata, .ap-grade.ap-g-bronze { max-width:60rem; margin-left:auto; margin-right:auto; }
+    @media (min-width:640px) { .ap-grade.ap-g-ouro { grid-template-columns:repeat(3, minmax(0, 1fr)); } .ap-grade.ap-g-prata { grid-template-columns:repeat(2, minmax(0, 1fr)); } .ap-grade.ap-g-bronze { grid-template-columns:repeat(3, minmax(0, 1fr)); } .ap-grade.ap-g-parceiro { grid-template-columns:repeat(3, minmax(0, 1fr)); } }
+    @media (min-width:1024px) { .ap-grade.ap-g-prata { grid-template-columns:repeat(4, minmax(0, 1fr)); } .ap-grade.ap-g-parceiro { grid-template-columns:repeat(5, minmax(0, 1fr)); } }
+    .ap-item { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.6rem; background:#fff; border:1px solid var(--line); border-radius:1.25rem; padding:1rem; box-shadow:0 10px 28px rgba(59,42,99,.06); text-align:center; }
+    .ap-logo { display:flex; align-items:center; justify-content:center; width:100%; }
+    .ap-logo img { max-width:100%; height:100%; object-fit:contain; }
+    .ap-g-ouro .ap-logo { height:9rem; } .ap-g-prata .ap-logo { height:6.5rem; } .ap-g-bronze .ap-logo { height:6rem; } .ap-g-parceiro .ap-logo { height:5rem; }
+    .ap-nome { font-weight:700; line-height:1.25; color:var(--ink); }
+    .ap-g-ouro .ap-nome { font-size:1.15rem; } .ap-g-prata .ap-nome, .ap-g-bronze .ap-nome { font-size:1rem; } .ap-g-parceiro .ap-nome { font-size:.88rem; }
+    .ap-solo { min-height:5rem; }
+    .ap-solo .ap-nome { font-size:1rem; } .ap-g-ouro .ap-solo .ap-nome { font-size:1.3rem; }
+    @media (prefers-reduced-motion: reduce) { .mz-new { animation:none; } .mz-tile img { transition:none; } }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior:auto; }
       .hero-orb, .reveal, .reveal-delay { animation:none; }
@@ -55,20 +124,15 @@
 
   <!-- Menu -->
   <header class="topbar fixed top-0 z-50 w-full">
-    <!-- Faixa de aviso (apague este bloco inteiro para remover) -->
-    <div id="faixa-aviso" class="px-4 py-2 text-center text-white" style="background:var(--ink);font-size:13px;line-height:1.35" role="note">
-      <strong>Vendas dos kits solidários encerradas.</strong> A inscrição gratuita continua aberta! No dia do evento, quem quiser ajudar a Guadalupe poderá contribuir por <strong>QR Code</strong>. <a href="#participe" class="font-bold underline underline-offset-2" style="color:#ffc928">Inscreva-se</a>
-    </div>
     <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
       <a href="#topo" class="whitespace-nowrap text-sm font-bold" style="letter-spacing:.08rem">BEBÊMINHADA SOLIDÁRIA · 2026</a>
       <!-- Menu horizontal só de 1280px para cima; abaixo disso, menu hambúrguer -->
       <nav aria-label="Navegação principal" class="hidden items-center gap-5 whitespace-nowrap xl:flex xl:gap-7">
+        <a href="#como-foi" class="nav-link">Veja como foi</a>
+        <a href="#apoio" class="nav-link">Quem apoiou</a>
         <a href="#evento" class="nav-link">O evento</a>
         <a href="#causa" class="nav-link">A causa</a>
-        <a href="#participe" class="nav-link">Participe</a>
-        <a href="#empresas" class="nav-link">Para empresas</a>
-        <a href="#participe" class="cta-button cta-inscricao">Inscreva-se</a>
-        <a href="#empresas" class="cta-button cta-patrocinio">Seja um patrocinador</a>
+        <a href="#mosaico" class="cta-button cta-inscricao hidden" data-mz><i data-lucide="camera" class="h-4 w-4" aria-hidden="true"></i>Enviar minhas fotos</a>
       </nav>
       <button id="menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav" class="rounded-full p-2 xl:hidden">
         <i data-lucide="menu" aria-hidden="true"></i><span class="sr-only">Abrir menu</span>
@@ -76,43 +140,61 @@
     </div>
     <nav id="mobile-nav" aria-label="Navegação móvel" class="hidden border-t border-[#3b2a6320] px-5 pb-5 xl:hidden">
       <div class="flex flex-col gap-4 pt-4 font-medium">
+        <a href="#como-foi">Veja como foi</a>
+        <a href="#apoio">Quem apoiou</a>
         <a href="#evento">O evento</a>
         <a href="#causa">A causa</a>
-        <a href="#participe">Participe</a>
-        <a href="#empresas">Para empresas</a>
-        <a href="#participe" class="cta-button w-full cta-inscricao">Faça sua inscrição, participe!</a>
-        <a href="#empresas" class="cta-button w-full cta-patrocinio">Seja um patrocinador</a>
+        <a href="#mosaico" class="cta-button w-full cta-inscricao hidden" data-mz>Enviar minhas fotos</a>
       </div>
     </nav>
   </header>
 
   <main id="topo">
 
-    <!-- ============ HERO ============ -->
-    <section class="relative pt-40 sm:pt-36">
+
+
+    <!-- ============ AGRADECIMENTO ============ -->
+    <section id="como-foi" class="section-anchor relative pt-24">
       <div class="relative mx-auto grid max-w-7xl items-center gap-10 px-5 pb-20 pt-10 lg:grid-cols-[.8fr_1.2fr] lg:px-8 lg:pb-28 lg:pt-16">
         <div class="max-w-2xl">
-          <img src="Logo.png" alt="Logo oficial da Bebêminhada Solidária" onerror="this.style.display='none'" class="reveal mx-auto mb-6 h-auto w-60 max-w-full object-contain sm:w-72 lg:mx-0">
-          <h1 class="reveal-delay mb-5 leading-[1]" style="font-size:clamp(2.2rem,5vw,3.8rem);letter-spacing:-.05em;font-weight:400">Venha caminhar com a gente. <strong style="font-weight:700">Cada passo importa.</strong></h1>
-          <p class="reveal-delay max-w-xl" style="color:var(--body);font-size:19px;line-height:1.55">Uma caminhada em família, cheia de afeto e solidariedade, que ajuda mães e bebês acolhidos pela Associação Guadalupe.</p>
-          <div class="reveal-delay mt-6 flex flex-wrap gap-2">
+          <img src="Logo.png" alt="Logo oficial da Bebêminhada Solidária" onerror="this.style.display='none'" class="mx-auto mb-6 h-auto w-60 max-w-full object-contain sm:w-72 lg:mx-0">
+          <p class="eyebrow mb-4" style="color:var(--terra)">2ª Bebêminhada Solidária</p>
+          <h1 class="mb-5 leading-[1]" style="font-size:clamp(2.2rem,5vw,3.8rem);letter-spacing:-.05em;font-weight:400">Veja como foi. <strong style="font-weight:700">Cada passo importou.</strong></h1>
+          <p class="max-w-xl" style="color:var(--body);font-size:19px;line-height:1.55">A 2ª Bebêminhada Solidária reuniu famílias, amigos e parceiros em uma manhã de afeto em benefício da Associação Guadalupe. Muito obrigado a cada pessoa que caminhou com a gente.</p>
+          <div class="mt-6 flex flex-wrap gap-2">
             <span class="chip"><i data-lucide="calendar" class="h-4 w-4" aria-hidden="true"></i>8 de novembro de 2026</span>
-            <span class="chip"><i data-lucide="clock" class="h-4 w-4" aria-hidden="true"></i>A partir das 8h30</span>
             <span class="chip"><i data-lucide="map-pin" class="h-4 w-4" aria-hidden="true"></i>Praça Ulysses Guimarães · São José dos Campos</span>
-          </div>
-          <div class="reveal-delay mt-8 flex max-w-md flex-col gap-3">
-            <a href="#participe" class="cta-button cta-grande cta-inscricao"><i data-lucide="ticket" aria-hidden="true"></i>Faça sua inscrição, participe!</a>
-            <a href="#empresas" class="cta-button cta-grande cta-patrocinio"><i data-lucide="handshake" aria-hidden="true"></i>Apoie essa ideia, seja patrocinador!</a>
           </div>
         </div>
         <div class="relative mx-auto w-full max-w-3xl">
           <div class="hero-orb absolute -right-4 -top-5 h-28 w-28 rounded-full bg-[#f58634]"></div>
           <div class="hero-orb absolute -bottom-5 -left-4 h-36 w-36 rounded-full bg-[#7ac143]"></div>
-          <div class="relative overflow-hidden rounded-[2rem] border-[7px] border-white bg-[#3b2a63] shadow-2xl" style="aspect-ratio:16/9">
-            <iframe class="block h-full w-full" src="https://www.youtube.com/embed/P7JsvpRpujs?si=OCcNXbC5KYLSllEk" title="Veja como foi a 1ª edição da Bebêminhada" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="border:0"></iframe>
+
+          <!-- MOSAICO: fotos e vídeos do evento. Só aparece se MOSAICO_CONFIG.apiUrl estiver preenchido (script no fim da página). -->
+          <div id="mosaico" class="mz section-anchor relative" style="z-index:1" hidden>
+            <p class="mb-4 text-center font-bold" style="font-size:clamp(1.15rem,2.4vw,1.5rem);line-height:1.3;letter-spacing:-.02em">Se você caminhou com a gente, envie suas fotos e vídeos e mostre como foi.</p>
+            <div class="mz-acoes" style="margin-top:0">
+              <button type="button" id="mz-abrir" class="cta-button cta-grande cta-inscricao" aria-haspopup="dialog" aria-controls="mz-envio"><i data-lucide="camera" aria-hidden="true"></i>Enviar minhas fotos e vídeos</button>
+            </div>
+            <p id="mz-contador" class="sr-only" aria-live="polite"></p>
+            <div class="mz-moldura"><div id="mz-grade" class="mz-grade"></div></div>
+            <p id="mz-vazio" class="mz-vazio" hidden>Ainda não há fotos por aqui. Seja a primeira pessoa a compartilhar um momento!</p>
           </div>
-          <p class="mt-5 text-center text-sm font-medium" style="color:var(--body)">Veja como foi a 1ª edição, em outubro de 2025.</p>
         </div>
+      </div>
+    </section>
+
+
+
+    <!-- ============ QUEM APOIOU ============ -->
+    <section id="apoio" class="section-anchor py-20 lg:py-28" style="background:var(--sand)">
+      <div class="mx-auto max-w-7xl px-5 lg:px-8">
+        <div class="mx-auto max-w-3xl text-center">
+          <p class="eyebrow mb-5" style="color:var(--terra)">Agradecimento</p>
+          <h2>Quem apoiou</h2>
+          <p class="lead mt-5">A 2ª Bebêminhada Solidária só aconteceu porque tem gente que acredita. Obrigado aos patrocinadores e parceiros que fizeram essa manhã acontecer.</p>
+        </div>
+        <div id="apoio-lista" class="mt-12"></div>
       </div>
     </section>
 
@@ -121,12 +203,13 @@
       <div class="mx-auto max-w-7xl px-5 lg:px-8">
         <div class="grid gap-8 lg:grid-cols-[.9fr_1.1fr]">
           <div>
-            <p class="eyebrow mb-5" style="color:var(--terra)">O que é a Bebêminhada</p>
+            <p class="eyebrow mb-5" style="color:var(--terra)">O evento</p>
             <h2>Uma manhã para caminhar, brincar e fazer o bem.</h2>
           </div>
           <div class="self-end">
             <p class="lead">A <strong>Bebêminhada Solidária</strong> é um encontro de famílias em forma de caminhada: bebês, crianças, mães, pais, avós e amigos, cada um no seu ritmo, juntos por uma causa.</p>
             <p class="lead mt-4">Quem participa vive uma manhã leve e divertida e, ao mesmo tempo, ajuda a acolher mães e bebês em situação de vulnerabilidade. Tudo o que é arrecadado vai para a <strong>Associação Guadalupe</strong>.</p>
+            <p class="lead mt-4">A seguir, como foi a manhã da 2ª edição, do acolhimento à roda de conversa.</p>
           </div>
         </div>
         <div class="mt-12 grid gap-5 md:grid-cols-3">
@@ -146,114 +229,17 @@
             <p class="mt-3" style="color:var(--body);line-height:1.55">Um espaço leve para conexões entre famílias, marcas e causa.</p>
           </article>
         </div>
-      </div>
-    </section>
-
-    <!-- ============ A CAUSA ============ -->
-    <section id="causa" class="section-anchor bg-[#3b2a63] py-20 lg:py-28">
-      <div class="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-2 lg:px-8">
-        <div>
-          <p class="eyebrow mb-5" style="color:var(--sage)">Nossa causa</p>
-          <h2 class="max-w-lg text-white">Uma rede de cuidado começa quando a gente caminha junto.</h2>
-          <p class="mt-8 max-w-xl" style="color:#f3ecfb;font-size:20px;line-height:1.55">Cada inscrição e cada parceria ajudam a acolher mães e bebês em situação de vulnerabilidade.</p>
-          <p class="mt-5 max-w-xl" style="color:#f3ecfb;font-size:18px;line-height:1.6">Na 1ª edição, o valor arrecadado contribuiu para a finalização do novo prédio destinado às gestantes atendidas pela Guadalupe. A primeira caminhada já mostrou o tamanho dessa transformação.</p>
-        </div>
-        <div class="flex flex-col justify-center gap-5">
-          <div class="flex flex-col gap-7 rounded-[1.5rem] p-7 sm:flex-row sm:items-center sm:justify-between" style="background:var(--cream)">
-            <div class="min-w-0 flex-1">
-              <p class="text-xs font-bold uppercase" style="color:var(--terra);letter-spacing:.15rem">Em benefício de</p>
-              <h3 class="mt-3" style="font-size:19px">ASSOCIAÇÃO GUADALUPE</h3>
-              <p class="mt-3" style="color:var(--body);line-height:1.5">Uma parceria que faz o cuidado chegar mais longe.</p>
-              <a href="http://associacaoguadalupe.org.br/" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex font-bold underline decoration-2 underline-offset-4" style="color:var(--terra)">Conheça a Associação Guadalupe</a>
-            </div>
-            <figure class="shrink-0 self-center overflow-hidden rounded-[1.25rem] sm:w-40 m-0">
-              <img src="Guadalupe.png" alt="Imagem em formato de coração com gestante e símbolo de pegada azul." onerror="this.parentElement.style.display='none'" class="h-40 w-full object-contain sm:h-44">
-            </figure>
-          </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="rounded-[1.35rem] p-6" style="background:var(--coral)">
-              <p class="m-0 font-bold text-white" style="font-size:48px;letter-spacing:-.05em">18</p>
-              <p class="mt-1 text-[11px] font-bold uppercase text-white" style="letter-spacing:.12rem">Patrocinadores na 1ª edição</p>
-            </div>
-            <div class="rounded-[1.35rem] p-6" style="background:var(--sage)">
-              <p class="m-0 font-bold" style="font-size:48px;letter-spacing:-.05em">15</p>
-              <p class="mt-1 text-[11px] font-bold uppercase" style="letter-spacing:.12rem">Parceiros na 1ª edição</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ PARTICIPE (PÚBLICO) ============ -->
-    <section id="participe" class="section-anchor py-20 lg:py-28">
-      <div class="mx-auto max-w-7xl px-5 lg:px-8">
-        <div class="mx-auto max-w-3xl text-center">
-          <p class="eyebrow mb-5" style="color:var(--terra)">Participe</p>
-          <h2>Chame a família, os amigos e venha caminhar com a gente!</h2>
-          <p class="lead mt-5">Faça sua inscrição e venha transformar uma manhã de domingo em ajuda de verdade para quem mais precisa.</p>
-          <div id="contagem" class="mt-6 hidden"><span class="chip"><i data-lucide="timer" class="h-4 w-4" aria-hidden="true"></i><span id="contagem-texto"></span></span></div>
-        </div>
-
-        <!-- Aviso só para quem abriu pelo navegador embutido do Instagram/Facebook (a página de inscrição/pagamento pode travar lá) 
-        <div id="aviso-navegador" class="mx-auto mt-10 hidden max-w-3xl rounded-[1.25rem] p-5 text-center" style="background:#fff3d1;border:2px solid #f58634;color:var(--ink)" role="note">
-          <p class="font-bold" style="font-size:17px">Você está no navegador do Instagram</p>
-          <p class="mt-2" style="color:var(--body);line-height:1.5">Para fazer a inscrição e o pagamento sem travar, toque nos <strong>três pontinhos (⋯)</strong> no canto da tela e escolha <strong>“Abrir no navegador”</strong> (ou “Abrir no Chrome/Safari”). Depois é só voltar a esta página e tocar no botão.</p>
-          <button type="button" id="aviso-copiar" class="cta-button mt-4" style="background:#fff;color:var(--ink);border:2px solid #f58634">Copiar o link da página</button>
-          <p id="aviso-copiado" class="mt-2 hidden" style="color:#4f8f1f;font-weight:600">Link copiado! Cole no seu navegador.</p>
-        </div> -->
-        <!-- Duas formas de participar -->
-        <div class="mx-auto mt-12 grid max-w-xl gap-6">
-          <!-- KIT SOLIDÁRIO ENCERRADO (para reativar, remova esta linha e a de fechamento)
-          <article class="soft-card flex flex-col rounded-[1.75rem] p-8" style="background:var(--sand);border-color:#f5863466">
-            <div class="mb-6 inline-flex w-fit rounded-full bg-[#f5863433] p-3 text-[#d9611a]"><i data-lucide="gift" aria-hidden="true"></i></div>
-            <p class="eyebrow" style="color:var(--terra)">Kit Solidário · R$ 60,00</p>
-            <h3 class="mt-2" style="font-size:24px">Vista essa causa</h3>
-            <p class="mt-3" style="color:var(--body);line-height:1.55">Garanta seu kit oficial por <strong>R$ 60,00</strong>, com:</p>
-            <ul class="mt-3 flex-1 space-y-1 list-none p-0" style="color:var(--body);line-height:1.5"><li>• Camiseta Dryfit oficial do evento</li><li>• Ecobag personalizada com brindes e vouchers</li><li>• Garrafinha de água</li><li>• Também disponível em tamanho infantil</li></ul>
-            <p class="mt-3" style="color:var(--body);line-height:1.55">Adquirindo o kit você ajuda a fortalecer o trabalho da Associação Guadalupe e torna esse movimento do bem ainda maior.</p>
-            <a href="https://app.desenvolvi.site/bebeminhada.html?tipo=kit" target="_blank" rel="noopener noreferrer" class="cta-button cta-grande cta-inscricao mt-6">Quero meu kit solidário</a>
-          </article>
-          FIM KIT SOLIDÁRIO -->
-          <article class="soft-card flex flex-col rounded-[1.75rem] bg-white p-8">
-            <div class="mb-6 inline-flex w-fit rounded-full bg-[#7ac14366] p-3 text-[#3b2a63]"><i data-lucide="footprints" aria-hidden="true"></i></div>
-            <p class="eyebrow" style="color:#4f8f1f">Participação gratuita</p>
-            <h3 class="mt-2" style="font-size:24px">Caminhe pelo bem</h3>
-            <p class="mt-3 flex-1" style="color:var(--body);line-height:1.55">A participação é gratuita, mas a inscrição é importante para que a organização do evento possa planejar tudo com muito carinho para você e toda sua família.</p>
-            <a href="https://app.desenvolvi.site/bebeminhada.html?tipo=participacao" target="_blank" rel="noopener noreferrer" class="cta-button cta-grande cta-inscricao mt-6">Quero me inscrever</a>
-          </article>
-        </div>
-
-        <!-- Como funciona -->
-        <div class="mx-auto mt-16 grid max-w-3xl gap-6 md:grid-cols-2">
-          <div class="text-center md:text-left">
-            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full text-lg font-bold text-white" style="background:var(--coral)">1</span>
-            <h3 class="mt-3" style="font-size:19px">Faça a inscrição</h3>
-            <p class="mt-2" style="color:var(--body);line-height:1.5">Preencha seus dados e dos acompanhantes em poucos minutos.</p>
-          </div>
-          <!-- PASSO KIT ENCERRADO
-          <div class="text-center md:text-left">
-            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full text-lg font-bold text-white" style="background:var(--sage)">2</span>
-            <h3 class="mt-3" style="font-size:19px">Escolha seu kit e doe</h3>
-            <p class="mt-2" style="color:var(--body);line-height:1.5">Quem quiser o kit escolhe o tamanho e paga com segurança pela internet.</p>
-          </div>
-          FIM PASSO KIT -->
-          <div class="text-center md:text-left">
-            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full text-lg font-bold text-white" style="background:var(--ink)">2</span>
-            <h3 class="mt-3" style="font-size:19px">Receba o ingresso</h3>
-            <p class="mt-2" style="color:var(--body);line-height:1.5">O ingresso com QR Code chega no seu e-mail. É só apresentá-lo no dia.</p>
-          </div>
-        </div>
 
         <!-- Programação -->
         <div class="mx-auto mt-16 max-w-5xl soft-card rounded-[1.75rem] bg-white p-8">
-          <p class="eyebrow" style="color:var(--terra)">Programação</p>
+          <p class="eyebrow" style="color:var(--terra)">Como é o evento</p>
           <h3 class="mt-2" style="font-size:24px">Uma manhã para brincar, descobrir e estar junto</h3>
           <div class="mt-8 grid gap-8 md:grid-cols-2">
             <div class="border-l-4 pl-5" style="border-color:var(--coral)">
               <p class="m-0 font-bold" style="color:var(--terra);font-size:22px">8h30</p>
               <h4 class="mt-1 font-bold" style="font-size:18px">Acolhimento e abertura</h4>
               <ul class="mt-3 space-y-1 list-none p-0" style="color:var(--body);line-height:1.5">
-                <li>• Recepção e entrega dos kits</li>
+                <li>• Recepção e acolhimento das famílias</li>
                 <li>• Apresentação da Bebêminhada e da Associação Guadalupe</li>
               </ul>
             </div>
@@ -300,13 +286,12 @@
               </ul>
             </div>
           </div>
-          <p class="mt-8 border-t pt-4 text-sm" style="color:var(--body);border-color:var(--line)">* A programação pode sofrer atualizações. Fique de olho em nossas redes e no seu e-mail para novidades.</p>
         </div>
 
         <!-- Onde e quando -->
         <div class="mx-auto mt-16 flex max-w-5xl flex-col items-start justify-between gap-6 rounded-[1.75rem] p-8 sm:flex-row sm:items-center" style="background:var(--ink)">
           <div class="text-white">
-            <p class="eyebrow" style="color:var(--sage)">Onde e quando</p>
+            <p class="eyebrow" style="color:var(--sage)">2ª edição · onde e quando</p>
             <p class="mt-2 text-xl font-bold">Domingo, 8 de novembro de 2026, a partir das 8h30</p>
             <p class="mt-1" style="color:#f3ecfb">Praça Ulysses Guimarães, Parque Res. Aquarius · São José dos Campos – SP</p>
           </div>
@@ -315,97 +300,82 @@
       </div>
     </section>
 
-    <!-- ============ PARA EMPRESAS E PROFISSIONAIS ============ -->
-    <section id="empresas" class="section-anchor bg-[#3b2a63] py-20 lg:py-28">
+    <!-- ============ A CAUSA: O TRABALHO DA ASSOCIAÇÃO GUADALUPE ============
+         Informações do site da Associação Guadalupe (associacaoguadalupe.org.br). O site não publica números de atendimentos, então não há números aqui. -->
+    <section id="causa" class="section-anchor bg-[#3b2a63] py-20 lg:py-28">
       <div class="mx-auto max-w-7xl px-5 lg:px-8">
-        <div class="mx-auto max-w-3xl text-center">
-          <p class="eyebrow mb-5" style="color:var(--sage)">Para empresas e profissionais</p>
-          <h2 class="text-white">Sua marca no centro de uma causa que as famílias vão lembrar.</h2>
-          <p class="mt-5" style="color:#f3ecfb;font-size:18px;line-height:1.6">Seja protagonista da Bebêminhada: patrocine, esteja presente no evento, conecte-se com centenas de famílias da região e deixe sua marca ligada a uma ação que transforma vidas.</p>
+        <div class="grid items-center gap-12 lg:grid-cols-[1.1fr_.9fr]">
+          <div>
+            <p class="eyebrow mb-5" style="color:var(--sage)">A causa</p>
+            <h2 class="max-w-xl text-white">Cuidado que começa na gestação e acompanha a família.</h2>
+            <p class="mt-8 max-w-xl" style="color:#f3ecfb;font-size:19px;line-height:1.55">A <strong>Associação Guadalupe</strong>, em São José dos Campos, acolhe gestantes em situação de crise, como gravidez inesperada, vulnerabilidade social ou abandono familiar, e acompanha mães, bebês e crianças até os 6 anos.</p>
+            <p class="mt-5 max-w-xl" style="color:#f3ecfb;font-size:18px;line-height:1.6">A missão é valorizar, apoiar e transformar a família, para que cada pessoa tenha seus direitos fundamentais assegurados, por meio de uma rede de apoio à maternidade e à paternidade.</p>
+          </div>
+          <div class="flex flex-col gap-7 rounded-[1.5rem] p-7 sm:flex-row sm:items-center sm:justify-between" style="background:var(--cream)">
+            <div class="min-w-0 flex-1">
+              <p class="text-xs font-bold uppercase" style="color:var(--terra);letter-spacing:.15rem">Em benefício de</p>
+              <h3 class="mt-3" style="font-size:19px">ASSOCIAÇÃO GUADALUPE</h3>
+              <p class="mt-3" style="color:var(--body);line-height:1.5">Uma parceria que faz o cuidado chegar mais longe.</p>
+              <a href="http://associacaoguadalupe.org.br/" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex font-bold underline decoration-2 underline-offset-4" style="color:var(--terra)">Conheça a Associação Guadalupe</a>
+            </div>
+            <figure class="shrink-0 self-center overflow-hidden rounded-[1.25rem] sm:w-40 m-0">
+              <img src="Guadalupe.png" alt="Imagem em formato de coração com gestante e símbolo de pegada azul." onerror="this.parentElement.style.display='none'" class="h-40 w-full object-contain sm:h-44">
+            </figure>
+          </div>
         </div>
 
-        <!-- Por que patrocinar -->
-        <div class="mt-12 grid gap-5 md:grid-cols-3">
-          <article class="rounded-[1.5rem] bg-white p-7">
-            <div class="mb-6 inline-flex rounded-full bg-[#f5863424] p-3 text-[#d9611a]"><i data-lucide="megaphone" aria-hidden="true"></i></div>
-            <h3 style="font-size:19px">Visibilidade de verdade</h3>
-            <p class="mt-3" style="color:var(--body);line-height:1.55">Logo nas camisetas e nos kits, backdrop, menções durante o evento e divulgação nas redes.</p>
-          </article>
-          <article class="rounded-[1.5rem] bg-white p-7">
-            <div class="mb-6 inline-flex rounded-full bg-[#7ac14366] p-3 text-[#3b2a63]"><i data-lucide="users" aria-hidden="true"></i></div>
-            <h3 style="font-size:19px">Contato direto com famílias</h3>
-            <p class="mt-3" style="color:var(--body);line-height:1.55">Espaço para ativação da sua marca, brindes nos kits e interação natural com o público.</p>
-          </article>
-          <article class="rounded-[1.5rem] bg-white p-7">
-            <div class="mb-6 inline-flex rounded-full bg-[#3b2a631c] p-3 text-[#3b2a63]"><i data-lucide="heart-handshake" aria-hidden="true"></i></div>
-            <h3 style="font-size:19px">Impacto social real</h3>
-            <p class="mt-3" style="color:var(--body);line-height:1.55">Seu patrocínio ajuda a acolher mães e bebês atendidos pela Associação Guadalupe.</p>
-          </article>
-        </div>
-
-        <!-- Jornada de visibilidade -->
-        <div class="mt-20">
-          <p class="eyebrow mb-4" style="color:var(--sage)">Jornada de visibilidade</p>
-          <h3 class="text-white" style="font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-.03em">Presença que acompanha toda a história.</h3>
-          <div class="mt-12 grid gap-6 lg:grid-cols-3">
-            <article class="relative border-l border-[#ffffff40] pl-7 lg:border-l-0 lg:border-t lg:pl-0 lg:pt-7">
-              <span class="timeline-dot absolute -left-2 top-0 h-4 w-4 rounded-full bg-[#f58634] lg:-top-2 lg:left-0"></span>
-              <p class="eyebrow" style="color:#ffb27a;letter-spacing:.15rem">Antes</p>
-              <h3 class="mt-3 text-white" style="font-size:19px">Criar expectativa</h3>
-              <ul class="mt-5 space-y-3 list-none p-0" style="color:#f3ecfb"><li>• Publicações pré-evento</li><li>• Divulgação das inscrições</li></ul>
+        <!-- O trabalho da Guadalupe -->
+        <div class="mt-16">
+          <p class="eyebrow mb-4" style="color:var(--sage)">O trabalho da Guadalupe</p>
+          <h3 class="text-white" style="font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-.03em">Quatro frentes de apoio às famílias.</h3>
+          <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <article class="rounded-[1.5rem] bg-white p-7">
+              <div class="mb-6 inline-flex rounded-full bg-[#f5863424] p-3 text-[#d9611a]"><i data-lucide="stethoscope" aria-hidden="true"></i></div>
+              <h3 style="font-size:19px">Atendimento clínico</h3>
+              <p class="mt-3" style="color:var(--body);line-height:1.55">Clínica regularizada com equipe multidisciplinar: obstetra, pediatra, fisioterapia, enfermagem, ultrassonografia e acompanhamento psicológico para mães e crianças.</p>
             </article>
-            <article class="relative border-l border-[#ffffff40] pl-7 lg:border-l-0 lg:border-t lg:pl-0 lg:pt-7">
-              <span class="timeline-dot absolute -left-2 top-0 h-4 w-4 rounded-full bg-[#7ac143] lg:-top-2 lg:left-0"></span>
-              <p class="eyebrow" style="color:#a8dd7a;letter-spacing:.15rem">Durante</p>
-              <h3 class="mt-3 text-white" style="font-size:19px">Viver a experiência</h3>
-              <ul class="mt-5 space-y-3 list-none p-0" style="color:#f3ecfb"><li>• Presença e ativação da marca</li><li>• Brindes, fotos e vídeos</li></ul>
+            <article class="rounded-[1.5rem] bg-white p-7">
+              <div class="mb-6 inline-flex rounded-full bg-[#7ac14366] p-3 text-[#3b2a63]"><i data-lucide="baby" aria-hidden="true"></i></div>
+              <h3 style="font-size:19px">Centro de Convivência da Primeira Infância</h3>
+              <p class="mt-3" style="color:var(--body);line-height:1.55">Acolhimento e desenvolvimento integral de crianças da concepção aos 6 anos, com oficinas de música, artes, teatro, balé e contação de histórias, e rodas de conversa para as famílias.</p>
             </article>
-            <article class="relative border-l border-[#ffffff40] pl-7 lg:border-l-0 lg:border-t lg:pl-0 lg:pt-7">
-              <span class="timeline-dot absolute -left-2 top-0 h-4 w-4 rounded-full bg-[#cc66ff] lg:-top-2 lg:left-0"></span>
-              <p class="eyebrow" style="color:#e2a8ff;letter-spacing:.15rem">Depois</p>
-              <h3 class="mt-3 text-white" style="font-size:19px">Permanecer na memória</h3>
-              <ul class="mt-5 space-y-3 list-none p-0" style="color:#f3ecfb"><li>• Publicações pós-evento</li><li>• Agradecimentos e registros da ação</li></ul>
+            <article class="rounded-[1.5rem] bg-white p-7">
+              <div class="mb-6 inline-flex rounded-full bg-[#2f9bd826] p-3 text-[#1f7db5]"><i data-lucide="palette" aria-hidden="true"></i></div>
+              <h3 style="font-size:19px">Arte e Comunhão</h3>
+              <p class="mt-3" style="color:var(--body);line-height:1.55">Oficinas de artesanato, atividades culturais e espaços de convivência, com apoio à geração de renda e acompanhamento de assistentes sociais.</p>
+            </article>
+            <article class="rounded-[1.5rem] bg-white p-7">
+              <div class="mb-6 inline-flex rounded-full bg-[#cc66ff26] p-3 text-[#9a3fd1]"><i data-lucide="scale" aria-hidden="true"></i></div>
+              <h3 style="font-size:19px">Projeto Jurídico</h3>
+              <p class="mt-3" style="color:var(--body);line-height:1.55">Orientação e apoio jurídico gratuito para gestantes, mães e famílias em vulnerabilidade, sobre guarda, registros civis, benefícios sociais e outros direitos.</p>
             </article>
           </div>
         </div>
 
-        <!-- Cotas -->
-        <div class="mt-20">
-          <div class="mx-auto max-w-3xl text-center">
-            <p class="eyebrow mb-4" style="color:var(--sage)">Cotas de patrocínio</p>
-            <h3 class="text-white" style="font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-.03em">Escolha o nível de presença ideal para a sua marca.</h3>
-            <p class="mt-4" style="color:#f3ecfb;line-height:1.6">Todas as cotas conectam sua empresa à causa. As entregas ampliam conforme o nível de visibilidade e interação.</p>
+        <!-- Como ajudar -->
+        <div class="mx-auto mt-16 max-w-3xl text-center">
+          <p class="eyebrow mb-4" style="color:var(--sage)">Como ajudar</p>
+          <h3 class="text-white" style="font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-.03em">Dá para ajudar a Guadalupe também depois do evento.</h3>
+          <p class="mt-4" style="color:#f3ecfb;line-height:1.6">Você pode fazer uma doação pontual ou mensal, ser voluntário ou indicar a Associação como beneficiária da Nota Fiscal Paulista, sem custo.</p>
+          <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a href="https://associacaoguadalupe.org.br/doar" target="_blank" rel="noopener noreferrer" class="cta-button cta-inscricao"><i data-lucide="heart-handshake" aria-hidden="true"></i>Quero doar</a>
+            <a href="https://associacaoguadalupe.org.br/voluntarios" target="_blank" rel="noopener noreferrer" class="cta-button" style="background:#fff;color:var(--ink)"><i data-lucide="hand-heart" aria-hidden="true"></i>Quero ser voluntário</a>
           </div>
-          <div class="mt-10 overflow-x-auto rounded-[1.5rem] bg-white shadow-xl">
-            <table id="tabela" class="w-full min-w-[680px] border-collapse text-left">
-              <thead>
-                <tr class="text-white" style="background:var(--coral)">
-                  <th class="px-5 py-4 font-semibold">ENTREGAS</th>
-                  <th class="px-5 py-4 font-semibold">OURO</th>
-                  <th class="px-5 py-4 font-semibold">PRATA</th>
-                  <th class="px-5 py-4 font-semibold">BRONZE</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-          <div class="mt-10 text-center">
-            <a href="https://wa.me/5512992009404?text=Quero%20contribuir%20com%20a%20Beb%C3%AAminhada%202026%20sendo%20um%20patrocinador" target="_blank" rel="noopener noreferrer" class="cta-button cta-grande cta-inscricao"><i data-lucide="handshake" aria-hidden="true"></i>Quero ser patrocinador, falar com a equipe</a>
-            <p class="mt-4" style="color:#f3ecfb">Ou ligue: <a href="tel:+5512992009404" class="font-bold text-white underline underline-offset-4">(12) 9 9200-9404</a></p>
-          </div>
+          <p class="mt-6 text-sm" style="color:#f3ecfb">Informações do site da <a href="http://associacaoguadalupe.org.br/" target="_blank" rel="noopener noreferrer" class="font-bold text-white underline underline-offset-4">Associação Guadalupe</a>. Instagram: @associacaoguadalupe</p>
         </div>
       </div>
     </section>
 
-    <!-- ============ CONVITE FINAL ============ -->
+
+    <!-- ============ AGRADECIMENTO FINAL ============ -->
     <section id="contato" class="section-anchor px-5 py-20 lg:px-8 lg:py-28">
       <div class="mx-auto max-w-7xl text-center">
-        <p class="eyebrow" style="color:var(--terra)">Faça parte</p>
-        <h2 class="mx-auto mt-5 max-w-3xl">Faça parte de uma história que as famílias vão lembrar.</h2>
-        <p class="mx-auto mt-6 max-w-2xl" style="color:var(--body);font-size:19px;line-height:1.55">Cada passo importa. Cada família transforma. Juntos, fazemos a diferença.</p>
+        <p class="eyebrow" style="color:var(--terra)">Até a próxima</p>
+        <h2 class="mx-auto mt-5 max-w-3xl">Uma história que as famílias vão lembrar.</h2>
+        <p class="mx-auto mt-6 max-w-2xl" style="color:var(--body);font-size:19px;line-height:1.55">Cada passo importou. Cada família transformou. Juntos, fizemos a diferença.</p>
         <div class="mx-auto mt-9 flex max-w-2xl flex-col gap-3 sm:flex-row sm:justify-center">
-          <a href="#participe" class="cta-button cta-grande cta-inscricao sm:flex-1"><i data-lucide="ticket" aria-hidden="true"></i>Faça sua inscrição, participe!</a>
-          <a href="#empresas" class="cta-button cta-grande cta-patrocinio sm:flex-1"><i data-lucide="handshake" aria-hidden="true"></i>Apoie essa ideia, seja patrocinador!</a>
+          <a href="#mosaico" data-mz class="cta-button cta-grande cta-inscricao hidden sm:flex-1"><i data-lucide="camera" aria-hidden="true"></i>Enviar minhas fotos e vídeos</a>
+          <a href="http://associacaoguadalupe.org.br/" target="_blank" rel="noopener noreferrer" class="cta-button cta-grande cta-patrocinio sm:flex-1"><i data-lucide="heart-handshake" aria-hidden="true"></i>Conheça a Associação Guadalupe</a>
         </div>
       </div>
     </section>
@@ -413,7 +383,7 @@
 
   <footer class="border-t border-[#3b2a6320] px-5 py-8 lg:px-8">
     <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
-      <p class="m-0 font-bold">Bebêminhada Solidária 2026 · 8 de novembro, a partir das 8h30</p>
+      <p class="m-0 font-bold">Bebêminhada Solidária 2026 · 8 de novembro de 2026</p>
       <p class="m-0" style="color:var(--body)">Em benefício da Associação Guadalupe</p>
       <a href="#topo" class="font-bold underline decoration-2 underline-offset-4" style="color:var(--terra)">Voltar ao topo</a>
     </div>
@@ -421,34 +391,6 @@
 </div>
 
 <script>
-  // Tabela de cotas: edite aqui. 1 = tem, 0 = não tem (colunas: ouro, prata, bronze)
-  const linhas = [
-    ["Espaço para ativação",        1, 0, 0],
-    ["Logo na camiseta",            1, 0, 0],
-    ["Logo no backdrop DESTAQUE",   1, 0, 0],
-    ["Logo no kit",                 1, 1, 0],
-    ["Vídeo no Instagram",          1, 1, 0],
-    ["Divulgação nas redes",        1, 1, 1],
-    ["Menção durante o evento",     1, 1, 1],
-    ["Brindes nos kits",            1, 1, 1],
-    ["Comunicação pré e pós",       1, 1, 1],
-    ["Registro fotográfico",        1, 1, 1],
-  ];
-  const tbody = document.querySelector("#tabela tbody");
-  const td = (t) => `<td class="px-5 py-4" style="color:var(--ink)">${t}</td>`;
-  tbody.innerHTML =
-    linhas.map(([nome, ...v]) => `<tr><th class="px-5 py-4 font-medium" style="color:var(--ink)">${nome}</th>${v.map(x => td(x ? "✓" : "—")).join("")}</tr>`).join("");
-
-  // Contagem regressiva até o evento (8/11/2026, 8h30, horário de Brasília)
-  (function () {
-    const alvo = new Date("2026-11-08T08:30:00-03:00");
-    const dias = Math.ceil((alvo - new Date()) / 86400000);
-    const box = document.getElementById("contagem");
-    const txt = document.getElementById("contagem-texto");
-    if (dias > 1) { txt.textContent = "Faltam " + dias + " dias para a Bebêminhada!"; box.classList.remove("hidden"); }
-    else if (dias === 1) { txt.textContent = "É amanhã! Vamos caminhar juntos?"; box.classList.remove("hidden"); }
-    else if (dias === 0) { txt.textContent = "É hoje! Nos vemos a partir das 8h30 na praça."; box.classList.remove("hidden"); }
-  })();
 
   document.addEventListener("DOMContentLoaded", () => {
     lucide.createIcons();
@@ -464,25 +406,468 @@
   });
 </script>
 <script>
-  // Fallback do Instagram: o navegador embutido (Instagram/Facebook) pode travar a página de compra do kit.
-  // Mostra o aviso "Abrir no navegador" só nesses casos.
+  // ===== QUEM APOIA A CAUSA (edite aqui) =====
+  // arq: nome do arquivo em /apoio (sem logo = o nome aparece em texto). Ordem = ordem na página.
+  const APOIO = [
+    { id: "ouro", titulo: "Cota Ouro", itens: [
+      ["Glow School", "ouro-glow.png"], ["Monteiro Educação Montessori", "ouro-monteiro.png"], ["Fazenda da Vovó", "ouro-vovo.png"] ] },
+    { id: "prata", titulo: "Cota Prata", itens: [
+      ["Amo Vacinas", "prata-amovacinas.png"], ["Fono Mariana Grillo", "prata-grillo.png"], ["Dra. Débora Perches", "prata-perches.png"], ["Dra. Déborah Albernaz", "prata-albernaz.png"] ] },
+    { id: "bronze", titulo: "Cota Bronze", itens: [
+      ["Dani Paschotto", "bronze-dani.png"], ["Bela Infância", "bronze-bella.png"], ["Dra. Isadora Moreno", "bronze-isadora.png"] ] },
+    { id: "parceiro", titulo: "Parceiros", itens: [
+      ["Turma do Tio Chico", "apoio-turma_do_tio_chico.png"], ["Turma do Pambolê", "apoio-turma_do_pambole.png"], ["Amo Minha Babá", "apoio-amo_minha_baba.png"],
+      ["Kids House", "apoio-kids_house.png"], ["Borboleta Mágica", "apoio-borboleta_magica.png"], ["Casa dela Piccolla", "apoio-casa_dela_piccolla.png"],
+      ["Mercadinho Beira Rio", "apoio-mercadinho_beira_rio.png"], ["Renata Vanz", "apoio-renata_vanz.png"], ["Liliane Pagotto", "apoio-liliane_pagotto.png"],
+      ["Ana Fotografia", "apoio-ana_fotografia.png"], ["Harumi Papelaria e Café", "apoio-harumi_papelaria_e_cafe.png"], ["Maria Amélia Nutricionista", "apoio-maria_amelia_nutricionista.png"],
+      ["Ana Paula Torquetti", "apoio-ana_paula_torquetti.png"], ["PMG Camisetas", "apoio-pmg_camisetas.png"], ["Rede Ecoar", "apoio-rede_ecoar.png"],
+      ["Mandie Videomaker", "apoio-amanda_videomaker.png"],   // CONFIRMAR com a Amanda antes de publicar
+      ["Sérgio Camargo", "apoio-sergio_camargo.png"],          // CONFIRMAR antes de publicar
+      ["Prefeitura de São José dos Campos", "apoio-prefeitura.png"], // CONFIRMAR antes de publicar
+      ["Pri Scarp", ""],                                       // CONFIRMAR antes de publicar
+      ["Júnior Simões", ""], ["Doce Magia", ""], ["Rosana Festas", ""], ["Geise", ""], ["Banguelas", "apoio-banguelas.png"], ["Andiara Fotografia", ""],
+      ["É Pontual Brindes", ""], ["Jardim Pilates", ""], ["Onde no Interior", ""], ["Paty Lana Doces Artesanais", ""], ["Roteiros SJC", ""] ] }
+  ];
   (function () {
-    try {
-      var ua = navigator.userAgent || '';
-      if (!/Instagram|FBAN|FBAV|FB_IAB/i.test(ua)) return;
-      var aviso = document.getElementById('aviso-navegador');
-      if (!aviso) return;
-      aviso.classList.remove('hidden');
-      var btn = document.getElementById('aviso-copiar');
-      var ok = document.getElementById('aviso-copiado');
-      if (btn) btn.addEventListener('click', function () {
-        var url = location.href.split('#')[0];
-        function pronto() { if (ok) ok.classList.remove('hidden'); }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(url).then(pronto, function () { window.prompt('Copie o link:', url); });
-        } else { window.prompt('Copie o link:', url); }
-      });
-    } catch (e) {}
+    const alvo = document.getElementById("apoio-lista");
+    if (!alvo) return;
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    alvo.innerHTML = APOIO.map((g, i) => `
+      <div class="text-center ${i ? "mt-14" : ""}">
+        <span class="ap-faixa ap-${g.id}">${esc(g.titulo)}</span>
+        <div class="ap-grade ap-g-${g.id}">${g.itens.map(([nome, arq]) => arq
+          ? `<div class="ap-item"><div class="ap-logo"><img src="apoio/${esc(arq)}" alt="${esc(nome)}" loading="lazy" decoding="async"></div>${g.id === "parceiro" ? "" : `<span class="ap-nome">${esc(nome)}</span>`}</div>`
+          : `<div class="ap-item ap-solo"><span class="ap-nome">${esc(nome)}</span></div>`).join("")}</div>
+      </div>`).join("");
   })();
-</script></body>
+</script>
+<!-- Modal de envio: avisos legais + escolha dos arquivos -->
+<div id="mz-envio" class="mz-modal" role="dialog" aria-modal="true" aria-label="Enviar fotos e vídeos" hidden>
+  <button type="button" id="mz-envio-fechar" class="mz-btn mz-fechar" aria-label="Fechar"><i data-lucide="x" aria-hidden="true"></i></button>
+  <div class="mz-card" style="margin:0; width:min(92vw,44rem); max-height:86vh; overflow-y:auto">
+          <form id="mz-form" novalidate onsubmit="return false">
+            <input type="text" id="mz-hp" class="mz-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <label class="mz-check">
+              <input type="checkbox" id="mz-lgpd">
+              <span><strong>Autorização de uso de imagem (LGPD).</strong> Autorizo, sem custo, a exibição das fotos e vídeos que eu enviar neste mosaico e o uso na divulgação da Bebêminhada Solidária e da Associação Guadalupe. Se aparecerem crianças ou outras pessoas, sou o responsável legal por elas ou tenho a autorização de quem as representa.</span>
+            </label>
+            <label class="mz-check">
+              <input type="checkbox" id="mz-conduta">
+              <span><strong>Conteúdo adequado.</strong> Declaro que sou autor(a) do material, ou tenho permissão para enviá-lo, que foi registrado na Bebêminhada e que <strong>não é ofensivo, ilegal, discriminatório, sexual ou violento</strong> nem expõe crianças de forma inadequada. Sei que a organização pode remover qualquer item e que sou responsável pelo que envio.</span>
+            </label>
+            <details class="mz-detalhes">
+              <summary>Como usamos seus envios e como pedir a remoção</summary>
+              <p>Os arquivos ficam guardados em uma pasta da organização e aparecem neste site para qualquer visitante. Não pedimos nome, e-mail ou telefone para enviar. Para remover uma foto ou vídeo, toque nele e use <strong>Denunciar</strong>, ou fale com a equipe pelo <a id="mz-contato" href="https://wa.me/5512992009404?text=Quero%20remover%20uma%20foto%20ou%20v%C3%ADdeo%20do%20mosaico%20da%20Beb%C3%AAminhada" target="_blank" rel="noopener noreferrer" class="font-bold underline">WhatsApp</a>. Itens que violem estes termos serão retirados.</p>
+            </details>
+            <div class="mz-acoes">
+              <input type="file" id="mz-arquivos" accept="image/*,video/*" multiple hidden>
+              <button type="button" id="mz-enviar" class="cta-button cta-grande cta-inscricao" disabled><i data-lucide="camera" aria-hidden="true"></i>Escolher fotos e vídeos</button>
+              <p id="mz-dica" class="mz-dica">Marque os dois avisos acima para liberar o envio.</p>
+            </div>
+          </form>
+          <ul id="mz-fila" class="mz-fila" aria-live="polite"></ul>
+  </div>
+</div>
+<!-- Visualizador do mosaico -->
+<div id="mz-modal" class="mz-modal" role="dialog" aria-modal="true" aria-label="Visualizar foto ou vídeo" hidden>
+  <button type="button" id="mz-fechar" class="mz-btn mz-fechar" aria-label="Fechar"><i data-lucide="x" aria-hidden="true"></i></button>
+  <div id="mz-modal-corpo" class="mz-modal-corpo"></div>
+  <div class="mz-modal-barra">
+    <a id="mz-baixar" class="mz-btn" href="#" target="_blank" rel="noopener noreferrer"><i data-lucide="download" aria-hidden="true"></i>Baixar</a>
+    <button type="button" id="mz-denunciar" class="mz-btn perigo"><i data-lucide="flag" aria-hidden="true"></i><span>Denunciar</span></button>
+  </div>
+</div>
+<script>
+  // ===== CONFIGURAÇÃO DO MOSAICO (edite aqui) =====
+  // Cole em apiUrl o endereço do Web App (termina em /exec). Vazio = a seção do mosaico fica escondida.
+  window.MOSAICO_CONFIG = {
+    apiUrl: "https://script.google.com/macros/s/AKfycbwW4L5A0nrRU7QZIhuRORYmndNdxQCDJVeP97JXH1Kmn5lMHTS5hla_hBChiqEoppX8uw/exec",
+    maxVideoMB: 60,          // precisa ser igual a CFG.MAX_VIDEO_BYTES do Code.gs
+    maxLadoFoto: 1600,       // fotos são reduzidas para no máximo esse tamanho (em pixels)
+    qualidadeFoto: 0.82,
+    pedacoVideoMB: 4,        // múltiplo de 0,25 MB (exigência do Google Drive)
+    maxArquivosPorEnvio: 20,
+    intervaloAtualizacaoMs: 10000,
+    versaoTermos: "2026-11-08" // mude quando alterar os textos de autorização
+  };
+</script>
+<script>
+(function () {
+  "use strict";
+  var C = Object.assign({ apiUrl: "https://script.google.com/macros/s/AKfycbwW4L5A0nrRU7QZIhuRORYmndNdxQCDJVeP97JXH1Kmn5lMHTS5hla_hBChiqEoppX8uw/exec", maxVideoMB: 60, maxLadoFoto: 1600, qualidadeFoto: 0.82, pedacoVideoMB: 4,
+    maxArquivosPorEnvio: 20, intervaloAtualizacaoMs: 10000, versaoTermos: "1" }, window.MOSAICO_CONFIG || {});
+
+  var secao = document.getElementById("mosaico");
+  if (!secao || !C.apiUrl) return;                       // sem backend configurado: nada aparece
+  secao.hidden = false;
+  (function () {
+    var abrir = document.getElementById("mz-abrir"), modalEnvio = document.getElementById("mz-envio");
+    if (!abrir || !modalEnvio) return;
+    function fechar() { modalEnvio.hidden = true; abrir.focus(); }
+    abrir.addEventListener("click", function () { modalEnvio.hidden = false; document.getElementById("mz-envio-fechar").focus(); });
+    document.getElementById("mz-envio-fechar").addEventListener("click", fechar);
+    modalEnvio.addEventListener("click", function (e) { if (e.target === modalEnvio) fechar(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !modalEnvio.hidden) fechar(); });
+  })();
+  document.querySelectorAll("[data-mz]").forEach(function (a) { a.classList.remove("hidden"); });
+
+  var $ = function (id) { return document.getElementById(id); };
+  var grade = $("mz-grade"), vazio = $("mz-vazio"), contador = $("mz-contador"), fila = $("mz-fila");
+  var chkLgpd = $("mz-lgpd"), chkConduta = $("mz-conduta"), btnEnviar = $("mz-enviar"), dica = $("mz-dica");
+  var inputArq = $("mz-arquivos"), honeypot = $("mz-hp");
+  var modal = $("mz-modal"), modalCorpo = $("mz-modal-corpo"), btnDenunciar = $("mz-denunciar");
+  var reduzMovimento = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var ID_OK = /^[A-Za-z0-9_-]{10,80}$/;
+  var ids = new Set();            // itens já desenhados (evita duplicar)
+  var meus = {};                  // id -> URL local da foto que a própria pessoa acabou de enviar
+  var ultimaLinha = 0;            // última linha da planilha já recebida
+  var primeiraCarga = true, atualizando = false, falhas = 0, timer = null;
+  var denunciados = lerDenunciados();
+  var itemAberto = null, tileAberto = null;
+
+  // ---------- utilidades ----------
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function esperar(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  function hash(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); }
+  function miniatura(id, largura) { return "https://drive.google.com/thumbnail?id=" + id + "&sz=w" + largura; }
+  function lerDenunciados() { try { return JSON.parse(localStorage.getItem("mz_denunciados") || "[]"); } catch (e) { return []; } }
+  function salvarDenunciados() { try { localStorage.setItem("mz_denunciados", JSON.stringify(denunciados.slice(-200))); } catch (e) {} }
+
+  // ---------- grade (mosaico) ----------
+  function htmlTile(item, atraso, animar) {
+    var grande = hash(item.id) % 7 === 0;
+    var src = meus[item.id] || miniatura(item.id, grande ? 640 : 360);
+    var video = item.t === "video";
+    return `<button type="button" class="mz-tile${grande ? " mz-big" : ""}${animar ? " mz-new" : ""}" data-id="${esc(item.id)}" data-t="${video ? "video" : "foto"}" style="animation-delay:${atraso}ms" aria-label="${video ? "Abrir vídeo" : "Abrir foto"}"><img src="${esc(src)}" data-base="${esc(src)}" alt="" decoding="async"${meus[item.id] ? "" : ' loading="lazy"'}>${video ? '<span class="mz-play" aria-hidden="true">▶</span>' : ""}</button>`;
+  }
+
+  // itens: lista em ordem cronológica (mais antigo primeiro). Os mais novos ficam no topo.
+  function adicionar(itens, animar) {
+    var novos = itens.filter(function (it) {
+      return it && ID_OK.test(it.id) && !ids.has(it.id) && denunciados.indexOf(it.id) < 0;
+    });
+    if (!novos.length) return;
+    novos.reverse();
+    var buffer = "";
+    novos.forEach(function (it, i) {
+      ids.add(it.id);
+      buffer += htmlTile(it, animar && !reduzMovimento ? Math.min(i * 70, 1200) : 0, animar);
+    });
+    grade.insertAdjacentHTML("afterbegin", buffer);
+    atualizarContador();
+  }
+
+  function atualizarContador() {
+    var total = Math.max(ids.size, ultimaLinha - 1);
+    vazio.hidden = ids.size > 0;
+    contador.textContent = total > 0 ? (total === 1 ? "1 momento compartilhado" : total + " momentos compartilhados") : "";
+  }
+
+  // Miniaturas do Drive (principalmente de vídeos) podem demorar alguns segundos: tenta de novo.
+  grade.addEventListener("error", function (e) {
+    var img = e.target;
+    if (!img || img.tagName !== "IMG") return;
+    var n = Number(img.dataset.r || 0);
+    if (n >= 6) { img.style.display = "none"; return; }
+    img.dataset.r = String(n + 1);
+    setTimeout(function () { img.src = img.dataset.base + (img.dataset.base.indexOf("?") < 0 ? "?" : "&") + "r=" + (n + 1); }, 2500 * (n + 1));
+  }, true);
+
+  grade.addEventListener("click", function (e) {
+    var tile = e.target.closest(".mz-tile");
+    if (tile) abrirModal(tile.dataset.id, tile.dataset.t, tile);
+  });
+
+  // ---------- atualização ao vivo ----------
+  async function atualizar() {
+    if (atualizando) return;
+    atualizando = true;
+    try {
+      var r = await fetch(C.apiUrl + "?action=list&after=" + ultimaLinha);
+      var d = await r.json();
+      if (!d || !d.ok) throw new Error("lista");
+      adicionar(d.items || [], !primeiraCarga);
+      ultimaLinha = Math.max(ultimaLinha, Number(d.last) || 0);
+      primeiraCarga = false;
+      falhas = 0;
+      atualizarContador();
+    } catch (err) {
+      falhas++;
+      if (primeiraCarga && falhas >= 3) vazio.hidden = false;
+    } finally {
+      atualizando = false;
+    }
+  }
+
+  function agendar() {
+    clearTimeout(timer);
+    var espera = Math.min(60000, C.intervaloAtualizacaoMs * Math.pow(2, Math.min(falhas, 3)));
+    timer = setTimeout(async function () {
+      if (!document.hidden) await atualizar();
+      agendar();
+    }, espera);
+  }
+  document.addEventListener("visibilitychange", function () { if (!document.hidden) { atualizar(); agendar(); } });
+
+  // ---------- termos e botão ----------
+  function aoMudarTermos() {
+    var ok = chkLgpd.checked && chkConduta.checked;
+    btnEnviar.disabled = !ok;
+    dica.textContent = ok
+      ? "Fotos são reduzidas automaticamente. Vídeos: até " + C.maxVideoMB + " MB (cerca de 30 a 40 segundos), em MP4 ou MOV."
+      : "Marque os dois avisos acima para liberar o envio.";
+  }
+  chkLgpd.addEventListener("change", aoMudarTermos);
+  chkConduta.addEventListener("change", aoMudarTermos);
+  btnEnviar.addEventListener("click", function () { if (chkLgpd.checked && chkConduta.checked) inputArq.click(); });
+
+  // ---------- fila de envio ----------
+  var pendentes = [], ativos = 0, MAX_ATIVOS = 2;
+
+  window.addEventListener("beforeunload", function (e) {
+    if (ativos > 0 || pendentes.length) { e.preventDefault(); e.returnValue = ""; }
+  });
+
+  inputArq.addEventListener("change", function () {
+    var todos = Array.prototype.slice.call(inputArq.files || []);
+    inputArq.value = "";
+    if (!chkLgpd.checked || !chkConduta.checked) return;
+    if (todos.length > C.maxArquivosPorEnvio) {
+      linhaAviso("Você escolheu " + todos.length + " arquivos. Vamos enviar os primeiros " + C.maxArquivosPorEnvio + "; depois é só escolher o restante.");
+    }
+    todos.slice(0, C.maxArquivosPorEnvio).forEach(enfileirar);
+  });
+
+  function tipoDoArquivo(f) {
+    var t = (f.type || "").toLowerCase();
+    if (t.indexOf("image/") === 0) return "foto";
+    if (t.indexOf("video/") === 0) return "video";
+    var ext = (f.name || "").toLowerCase().split(".").pop();
+    if (["jpg", "jpeg", "png", "webp", "heic", "heif"].indexOf(ext) >= 0) return "foto";
+    if (["mp4", "mov", "m4v", "webm", "3gp"].indexOf(ext) >= 0) return "video";
+    return "";
+  }
+
+  function criarLinha(nome) {
+    var li = document.createElement("li");
+    li.className = "mz-item";
+    li.innerHTML = '<div class="mz-item-topo"><span class="mz-nome"></span><span class="mz-status"></span></div><div class="mz-barra"><i></i></div>';
+    li.querySelector(".mz-nome").textContent = nome;
+    fila.appendChild(li);
+    return li;
+  }
+  function linhaAviso(msg) {
+    var li = criarLinha(msg);
+    li.classList.add("erro");
+    setTimeout(function () { li.remove(); }, 9000);
+  }
+  function mostrar(job, texto, pct, classe) {
+    var li = job.li;
+    li.querySelector(".mz-status").textContent = texto;
+    if (typeof pct === "number") li.querySelector(".mz-barra i").style.width = Math.round(pct * 100) + "%";
+    if (classe) li.classList.add(classe);
+  }
+
+  function enfileirar(file) {
+    var job = { file: file, tipo: tipoDoArquivo(file), li: criarLinha(file.name || "arquivo") };
+    if (!job.tipo) return falhar(job, "Formato não aceito", false);
+    if (job.tipo === "video" && file.size > C.maxVideoMB * 1048576) {
+      return falhar(job, "Vídeo acima de " + C.maxVideoMB + " MB. Corte o vídeo ou grave em qualidade menor.", false);
+    }
+    mostrar(job, "Na fila…", 0);
+    pendentes.push(job);
+    bombear();
+  }
+
+  function bombear() {
+    while (ativos < MAX_ATIVOS && pendentes.length) {
+      var job = pendentes.shift();
+      ativos++;
+      processar(job).then(function () { ativos--; bombear(); }, function () { ativos--; bombear(); });
+    }
+  }
+
+  function falhar(job, msg, podeTentar) {
+    job.li.classList.remove("ok");
+    mostrar(job, msg, 0, "erro");
+    job.li.querySelector(".mz-barra i").style.width = "0%";
+    if (podeTentar !== false && !job.li.querySelector(".mz-tentar")) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "mz-tentar"; b.textContent = "Tentar de novo";
+      b.addEventListener("click", function () {
+        b.remove(); job.li.classList.remove("erro"); mostrar(job, "Na fila…", 0);
+        pendentes.push(job); bombear();
+      });
+      job.li.querySelector(".mz-item-topo").appendChild(b);
+    } else if (podeTentar === false) {
+      setTimeout(function () { job.li.remove(); }, 12000);
+    }
+  }
+
+  async function processar(job) {
+    try {
+      var item, preview = "";
+      if (job.tipo === "foto") {
+        mostrar(job, "Preparando…", 0.1);
+        var blob = await reduzirFoto(job.file);
+        preview = URL.createObjectURL(blob);
+        mostrar(job, "Enviando…", 0.35);
+        var r = await chamar({ action: "upload", mime: "image/jpeg", data: await paraBase64(blob) });
+        item = r.item;
+      } else {
+        item = await enviarVideo(job);
+      }
+      if (item && ID_OK.test(item.id)) {
+        if (preview) meus[item.id] = preview;
+        adicionar([item], true);
+        mostrar(job, "Enviado ✓", 1, "ok");
+        setTimeout(function () { job.li.remove(); }, 5000);
+      } else {
+        throw new Error("Resposta inesperada do servidor.");
+      }
+    } catch (err) {
+      falhar(job, mensagemErro(err), true);
+    }
+  }
+
+  function mensagemErro(err) {
+    if (err && err.fatal) return err.message;
+    return "Falha de conexão";
+  }
+
+  // Redimensiona a foto no próprio aparelho (rápido, economiza dados e espaço no Drive).
+  async function reduzirFoto(file) {
+    var bmp;
+    try { bmp = await createImageBitmap(file, { imageOrientation: "from-image" }); }
+    catch (e) { bmp = await carregarImagem(file); }
+    var fator = Math.min(1, C.maxLadoFoto / Math.max(bmp.width, bmp.height));
+    var cv = document.createElement("canvas");
+    cv.width = Math.max(1, Math.round(bmp.width * fator));
+    cv.height = Math.max(1, Math.round(bmp.height * fator));
+    cv.getContext("2d").drawImage(bmp, 0, 0, cv.width, cv.height);
+    if (bmp.close) bmp.close();
+    var blob = await new Promise(function (res) { cv.toBlob(res, "image/jpeg", C.qualidadeFoto); });
+    if (!blob) throw fatal("Não consegui preparar esta foto.");
+    return blob;
+  }
+  function carregarImagem(file) {
+    return new Promise(function (res, rej) {
+      var url = URL.createObjectURL(file), img = new Image();
+      img.onload = function () { URL.revokeObjectURL(url); res(img); };
+      img.onerror = function () { URL.revokeObjectURL(url); rej(fatal("Formato de foto não suportado neste aparelho.")); };
+      img.src = url;
+    });
+  }
+
+  function paraBase64(blob) {
+    return new Promise(function (res, rej) {
+      var fr = new FileReader();
+      fr.onload = function () { res(String(fr.result).split(",")[1] || ""); };
+      fr.onerror = function () { rej(new Error("leitura")); };
+      fr.readAsDataURL(blob);
+    });
+  }
+
+  function fatal(msg) { var e = new Error(msg); e.fatal = true; return e; }
+
+  // POST em text/plain (evita pré-verificação CORS no Apps Script) com 3 tentativas.
+  async function chamar(corpo) {
+    var ultimo = new Error("conexão");
+    for (var i = 0; i < 3; i++) {
+      try {
+        var r = await fetch(C.apiUrl, {
+          method: "POST",
+          body: JSON.stringify(Object.assign({ termos: true, versao: C.versaoTermos, website: honeypot.value }, corpo))
+        });
+        var d = await r.json();
+        if (d && d.ok) return d;
+        if (d && d.retry === false) throw fatal(d.msg || "Envio recusado.");
+        ultimo = new Error((d && d.msg) || "servidor");
+      } catch (e) {
+        if (e && e.fatal) throw e;
+        ultimo = e;
+      }
+      await esperar(1000 * (i * 2 + 1));
+    }
+    throw ultimo;
+  }
+
+  async function enviarVideo(job) {
+    var file = job.file, total = file.size, mime = (file.type || "").toLowerCase();
+    if (!mime || mime.indexOf("video/") !== 0) mime = /\.mov$/i.test(file.name) ? "video/quicktime" : "video/mp4";
+    mostrar(job, "Iniciando…", 0.02);
+    var ini = await chamar({ action: "init", mime: mime, size: total });
+    var pedaco = Math.round(C.pedacoVideoMB * 1048576), pos = 0, semAvanco = 0, item = null;
+    while (pos < total) {
+      var fim = Math.min(pos + pedaco, total);
+      var dados = await paraBase64(file.slice(pos, fim));
+      var r = await chamar({ action: "chunk", session: ini.session, start: pos, total: total, mime: mime, data: dados });
+      if (r.done) { item = r.item; break; }
+      var proximo = typeof r.next === "number" ? r.next : fim;
+      semAvanco = proximo <= pos ? semAvanco + 1 : 0;
+      if (semAvanco >= 3) throw new Error("O envio não avançou.");
+      pos = proximo;
+      mostrar(job, "Enviando " + Math.round(pos / total * 100) + "%", 0.05 + 0.93 * (pos / total));
+    }
+    if (!item) throw new Error("Envio incompleto.");
+    return item;
+  }
+
+  // ---------- visualizador ----------
+  function abrirModal(id, tipo, tile) {
+    if (!ID_OK.test(id)) return;
+    itemAberto = { id: id, t: tipo }; tileAberto = tile;
+    modalCorpo.innerHTML = tipo === "video"
+      ? `<iframe src="https://drive.google.com/file/d/${esc(id)}/preview" allow="autoplay; fullscreen" allowfullscreen title="Vídeo do mosaico"></iframe>`
+      : `<img src="${esc(meus[id] || miniatura(id, 1600))}" alt="Foto enviada por um participante">`;
+    $("mz-baixar").href = "https://drive.google.com/uc?export=download&id=" + id;
+    btnDenunciar.classList.remove("confirmar");
+    btnDenunciar.querySelector("span").textContent = "Denunciar";
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+    $("mz-fechar").focus();
+  }
+  function fecharModal() {
+    modal.hidden = true;
+    modalCorpo.innerHTML = "";            // para o vídeo
+    document.body.style.overflow = "";
+    if (tileAberto && document.body.contains(tileAberto)) tileAberto.focus();
+    itemAberto = null; tileAberto = null;
+  }
+  $("mz-fechar").addEventListener("click", fecharModal);
+  modal.addEventListener("click", function (e) { if (e.target === modal) fecharModal(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !modal.hidden) fecharModal(); });
+
+  btnDenunciar.addEventListener("click", async function () {
+    if (!itemAberto) return;
+    var span = btnDenunciar.querySelector("span");
+    if (!btnDenunciar.classList.contains("confirmar")) {          // 1º toque: pede confirmação
+      btnDenunciar.classList.add("confirmar");
+      span.textContent = "Toque de novo para confirmar";
+      return;
+    }
+    var alvo = itemAberto, tile = tileAberto, original = "Denunciar";
+    btnDenunciar.disabled = true; span.textContent = "Enviando…";
+    try {
+      await chamar({ action: "report", id: alvo.id });
+      denunciados.push(alvo.id); salvarDenunciados();
+      if (tile && tile.parentNode) tile.remove();
+      ids.delete(alvo.id); atualizarContador();
+      fecharModal();
+    } catch (err) {
+      btnDenunciar.classList.remove("confirmar");
+      span.textContent = "Não foi possível denunciar. Tente de novo.";
+      setTimeout(function () { span.textContent = original; }, 3500);
+    } finally {
+      btnDenunciar.disabled = false;
+    }
+  });
+
+  // ---------- início ----------
+  aoMudarTermos();
+  atualizar().then(agendar);
+})();
+</script>
+</body>
 </html>
