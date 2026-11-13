@@ -890,21 +890,21 @@
     girar: async function (a, b) {                        // vão girando como moedas
       var pa = pos(a), pb = pos(b); trocarNos(a, b); var na = pos(a), nb = pos(b);
       await Promise.all([
-        animar(a, [{ transform: T(pa.x - na.x, pa.y - na.y, "rotate(0) scale(1)") }, { transform: T((pa.x - na.x) / 2, (pa.y - na.y) / 2, "rotate(200deg) scale(.7)"), offset: .5 }, { transform: "none" }], 1100),
-        animar(b, [{ transform: T(pb.x - nb.x, pb.y - nb.y, "rotate(0) scale(1)") }, { transform: T((pb.x - nb.x) / 2, (pb.y - nb.y) / 2, "rotate(-200deg) scale(.7)"), offset: .5 }, { transform: "none" }], 1100)]);
+        animar(a, [{ transform: T(pa.x - na.x, pa.y - na.y, "rotate(0) scale(1)") }, { transform: T((pa.x - na.x) / 2, (pa.y - na.y) / 2, "rotate(200deg) scale(.7)"), offset: .5 }, { transform: "none" }], 900),
+        animar(b, [{ transform: T(pb.x - nb.x, pb.y - nb.y, "rotate(0) scale(1)") }, { transform: T((pb.x - nb.x) / 2, (pb.y - nb.y) / 2, "rotate(-200deg) scale(.7)"), offset: .5 }, { transform: "none" }], 900)]);
     },
     arco: async function (a, b) {                         // um passa por cima, o outro por baixo
       var pa = pos(a), pb = pos(b); trocarNos(a, b); var na = pos(a), nb = pos(b);
       var h = 46;
       await Promise.all([
-        animar(a, [{ transform: T(pa.x - na.x, pa.y - na.y) }, { transform: T((pa.x - na.x) / 2, (pa.y - na.y) / 2 - h, "scale(1.18)"), offset: .5 }, { transform: "none" }], 1000),
-        animar(b, [{ transform: T(pb.x - nb.x, pb.y - nb.y) }, { transform: T((pb.x - nb.x) / 2, (pb.y - nb.y) / 2 + h, "scale(.82)"), offset: .5 }, { transform: "none" }], 1000)]);
+        animar(a, [{ transform: T(pa.x - na.x, pa.y - na.y) }, { transform: T((pa.x - na.x) / 2, (pa.y - na.y) / 2 - h, "scale(1.18)"), offset: .5 }, { transform: "none" }], 900),
+        animar(b, [{ transform: T(pb.x - nb.x, pb.y - nb.y) }, { transform: T((pb.x - nb.x) / 2, (pb.y - nb.y) / 2 + h, "scale(.82)"), offset: .5 }, { transform: "none" }], 900)]);
     },
     quicar: async function (a, b) {                       // pulam para o lugar do outro
       var pa = pos(a), pb = pos(b); trocarNos(a, b); var na = pos(a), nb = pos(b);
       await Promise.all([
-        animar(a, [{ transform: T(pa.x - na.x, pa.y - na.y) }, { transform: T((pa.x - na.x) * .5, (pa.y - na.y) * .5 - 30, "scale(1.1,.9)"), offset: .45 }, { transform: T(0, 0, "scale(.92,1.08)"), offset: .78 }, { transform: "none" }], 950, "ease-in-out"),
-        animar(b, [{ transform: T(pb.x - nb.x, pb.y - nb.y) }, { transform: T((pb.x - nb.x) * .5, (pb.y - nb.y) * .5 - 30, "scale(1.1,.9)"), offset: .45 }, { transform: T(0, 0, "scale(.92,1.08)"), offset: .78 }, { transform: "none" }], 950, "ease-in-out")]);
+        animar(a, [{ transform: T(pa.x - na.x, pa.y - na.y) }, { transform: T((pa.x - na.x) * .5, (pa.y - na.y) * .5 - 30, "scale(1.1,.9)"), offset: .45 }, { transform: T(0, 0, "scale(.92,1.08)"), offset: .78 }, { transform: "none" }], 900, "ease-in-out"),
+        animar(b, [{ transform: T(pb.x - nb.x, pb.y - nb.y) }, { transform: T((pb.x - nb.x) * .5, (pb.y - nb.y) * .5 - 30, "scale(1.1,.9)"), offset: .45 }, { transform: T(0, 0, "scale(.92,1.08)"), offset: .78 }, { transform: "none" }], 900, "ease-in-out")]);
     },
     virar: async function (a, b) {                        // viram como cartas e voltam trocadas
       var f = "perspective(500px) rotateY(";
@@ -967,7 +967,7 @@
   }
   function cicloDinamico() {
     clearTimeout(din.timer);
-    din.timer = setTimeout(function () { passoDinamico(); cicloDinamico(); }, 2200 + Math.random() * 2300);
+    din.timer = setTimeout(function () { passoDinamico(); cicloDinamico(); }, 450 + Math.random() * 450);   // uma troca a cada 0,45 a 0,9 s
   }
   if (!reduzMovimento && "IntersectionObserver" in window && Element.prototype.animate) {
     new IntersectionObserver(function (es) { din.visivel = es[0].isIntersecting; }, { threshold: 0.15 }).observe(moldura);
