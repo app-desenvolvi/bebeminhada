@@ -82,6 +82,8 @@
     .mz-play { position:absolute; right:8px; bottom:8px; display:flex; align-items:center; justify-content:center; width:30px; height:30px; padding-left:2px; border-radius:50%; background:rgba(59,42,99,.85); color:#fff; font-size:12px; }
     .mz-new { animation:mzpop .55s cubic-bezier(.2,.9,.3,1.2) both; }
     @keyframes mzpop { from { opacity:0; transform:scale(.6) rotate(-4deg); } to { opacity:1; transform:none; } }
+    /* mosaico dinâmico: tiles trocando de lugar */
+    .mz-troca { z-index:6; box-shadow:0 14px 30px rgba(59,42,99,.35); }
     .mz-vazio { margin:2rem 0 0; text-align:center; color:var(--body); font-size:17px; }
     .mz-modal { position:fixed; inset:0; z-index:100; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; padding:1rem; background:rgba(30,20,50,.9); }
     .mz-modal-corpo { width:min(92vw, 900px); max-height:76vh; display:flex; align-items:center; justify-content:center; }
@@ -111,7 +113,7 @@
     .ap-g-ouro .ap-nome { font-size:1.15rem; } .ap-g-prata .ap-nome, .ap-g-bronze .ap-nome { font-size:1rem; } .ap-g-parceiro .ap-nome { font-size:.88rem; }
     .ap-solo { min-height:5rem; }
     .ap-solo .ap-nome { font-size:1rem; } .ap-g-ouro .ap-solo .ap-nome { font-size:1.3rem; }
-    @media (prefers-reduced-motion: reduce) { .mz-new { animation:none; } .mz-tile img { transition:none; } }
+    @media (prefers-reduced-motion: reduce) { .mz-new { animation:none; } .mz-troca { box-shadow:none; } .mz-tile img { transition:none; } }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior:auto; }
       .hero-orb, .reveal, .reveal-delay { animation:none; }
@@ -862,6 +864,119 @@
       btnDenunciar.disabled = false;
     }
   });
+
+  // ---------- mosaico dinâmico: as fotos trocam de lugar sozinhas, com efeitos sorteados ----------
+  // Só troca tiles do mesmo tamanho (grandes com grandes, pequenos com pequenos), então a grade nunca se desmonta.
+  // Pausa quando: a seção não está na tela, a aba está em segundo plano, há um modal aberto, a pessoa está rolando/tocando
+  // ou o aparelho pede menos movimento (prefers-reduced-motion).
+  var din = { visivel: false, ocupados: new Set(), pausaAte: 0, ultimo: "", timer: null };
+  var moldura = grade.parentNode;
+  var EASE = "cubic-bezier(.5,0,.2,1)";
+  function animar(el, frames, ms, easing) { return el.animate(frames, { duration: ms, easing: easing || EASE, fill: "none" }).finished; }
+  function trocarNos(a, b) {
+    var ph = document.createComment("");
+    grade.insertBefore(ph, a); grade.insertBefore(a, b); grade.insertBefore(b, ph); grade.removeChild(ph);
+  }
+  function pos(el) { var r = el.getBoundingClientRect(); return { x: r.left, y: r.top }; }
+  function T(dx, dy, extra) { return "translate(" + dx + "px," + dy + "px)" + (extra ? " " + extra : ""); }
+  // Efeitos: cada um recebe os dois tiles e devolve uma Promise quando termina.
+  var EFEITOS = {
+    voar: async function (a, b) {                         // deslizam direto para o lugar um do outro
+      var pa = pos(a), pb = pos(b); trocarNos(a, b); var na = pos(a), nb = pos(b);
+      await Promise.all([
+        animar(a, [{ transform: T(pa.x - na.x, pa.y - na.y) }, { transform: "none" }], 900),
+        animar(b, [{ transform: T(pb.x - nb.x, pb.y - nb.y) }, { transform: "none" }], 900)]);
+    },
+    girar: async function (a, b) {                        // vão girando como moedas
+      var pa = pos(a), pb = pos(b); trocarNos(a, b); var na = pos(a), nb = pos(b);
+      await Promise.all([
+        animar(a, [{ transform: T(pa.x - na.x, pa.y - na.y, "rotate(0) scale(1)") }, { transform: T((pa.x - na.x) / 2, (pa.y - na.y) / 2, "rotate(200deg) scale(.7)"), offset: .5 }, { transform: "none" }], 1100),
+        animar(b, [{ transform: T(pb.x - nb.x, pb.y - nb.y, "rotate(0) scale(1)") }, { transform: T((pb.x - nb.x) / 2, (pb.y - nb.y) / 2, "rotate(-200deg) scale(.7)"), offset: .5 }, { transform: "none" }], 1100)]);
+    },
+    arco: async function (a, b) {                         // um passa por cima, o outro por baixo
+      var pa = pos(a), pb = pos(b); trocarNos(a, b); var na = pos(a), nb = pos(b);
+      var h = 46;
+      await Promise.all([
+        animar(a, [{ transform: T(pa.x - na.x, pa.y - na.y) }, { transform: T((pa.x - na.x) / 2, (pa.y - na.y) / 2 - h, "scale(1.18)"), offset: .5 }, { transform: "none" }], 1000),
+        animar(b, [{ transform: T(pb.x - nb.x, pb.y - nb.y) }, { transform: T((pb.x - nb.x) / 2, (pb.y - nb.y) / 2 + h, "scale(.82)"), offset: .5 }, { transform: "none" }], 1000)]);
+    },
+    quicar: async function (a, b) {                       // pulam para o lugar do outro
+      var pa = pos(a), pb = pos(b); trocarNos(a, b); var na = pos(a), nb = pos(b);
+      await Promise.all([
+        animar(a, [{ transform: T(pa.x - na.x, pa.y - na.y) }, { transform: T((pa.x - na.x) * .5, (pa.y - na.y) * .5 - 30, "scale(1.1,.9)"), offset: .45 }, { transform: T(0, 0, "scale(.92,1.08)"), offset: .78 }, { transform: "none" }], 950, "ease-in-out"),
+        animar(b, [{ transform: T(pb.x - nb.x, pb.y - nb.y) }, { transform: T((pb.x - nb.x) * .5, (pb.y - nb.y) * .5 - 30, "scale(1.1,.9)"), offset: .45 }, { transform: T(0, 0, "scale(.92,1.08)"), offset: .78 }, { transform: "none" }], 950, "ease-in-out")]);
+    },
+    virar: async function (a, b) {                        // viram como cartas e voltam trocadas
+      var f = "perspective(500px) rotateY(";
+      await Promise.all([animar(a, [{ transform: f + "0deg)" }, { transform: f + "90deg)" }], 380, "ease-in"), animar(b, [{ transform: f + "0deg)" }, { transform: f + "-90deg)" }], 380, "ease-in")]);
+      a.style.visibility = b.style.visibility = "hidden";
+      if (!a.parentNode || !b.parentNode) return;
+      trocarNos(a, b); a.style.visibility = b.style.visibility = "";
+      await Promise.all([animar(a, [{ transform: f + "-90deg)" }, { transform: f + "0deg)" }], 420, "ease-out"), animar(b, [{ transform: f + "90deg)" }, { transform: f + "0deg)" }], 420, "ease-out")]);
+    },
+    pipoca: async function (a, b) {                       // somem encolhendo e reaparecem estourando
+      await Promise.all([animar(a, [{ transform: "none", opacity: 1 }, { transform: "scale(0) rotate(-25deg)", opacity: 0 }], 330, "ease-in"), animar(b, [{ transform: "none", opacity: 1 }, { transform: "scale(0) rotate(25deg)", opacity: 0 }], 330, "ease-in")]);
+      a.style.opacity = b.style.opacity = "0";
+      if (!a.parentNode || !b.parentNode) return;
+      trocarNos(a, b); a.style.opacity = b.style.opacity = "";
+      await Promise.all([animar(a, [{ transform: "scale(0) rotate(20deg)", opacity: 0 }, { transform: "scale(1.15) rotate(-3deg)", opacity: 1, offset: .65 }, { transform: "none", opacity: 1 }], 520, "ease-out"), animar(b, [{ transform: "scale(0) rotate(-20deg)", opacity: 0 }, { transform: "scale(1.15) rotate(3deg)", opacity: 1, offset: .65 }, { transform: "none", opacity: 1 }], 520, "ease-out")]);
+    },
+    desfocar: async function (a, b) {                     // dissolvem em névoa e trocam
+      await Promise.all([animar(a, [{ filter: "blur(0)", opacity: 1 }, { filter: "blur(12px)", opacity: 0 }], 420), animar(b, [{ filter: "blur(0)", opacity: 1 }, { filter: "blur(12px)", opacity: 0 }], 420)]);
+      a.style.opacity = b.style.opacity = "0";
+      if (!a.parentNode || !b.parentNode) return;
+      trocarNos(a, b); a.style.opacity = b.style.opacity = "";
+      await Promise.all([animar(a, [{ filter: "blur(12px)", opacity: 0 }, { filter: "blur(0)", opacity: 1 }], 520), animar(b, [{ filter: "blur(12px)", opacity: 0 }, { filter: "blur(0)", opacity: 1 }], 520)]);
+    }
+  };
+  var NOMES_EFEITOS = Object.keys(EFEITOS);
+
+  async function trocar(a, b, nome) {
+    [a, b].forEach(function (t) { din.ocupados.add(t); t.classList.remove("mz-new"); t.classList.add("mz-troca"); });
+    try { await EFEITOS[nome](a, b); } catch (e) { /* animação interrompida: a grade continua correta */ }
+    [a, b].forEach(function (t) { din.ocupados.delete(t); t.classList.remove("mz-troca"); t.style.opacity = ""; t.style.visibility = ""; });
+  }
+
+  function emVista(el) {
+    var r = el.getBoundingClientRect(), m = moldura.getBoundingClientRect();
+    var topo = Math.max(m.top, 0), base = Math.min(m.bottom, window.innerHeight);
+    return r.height > 0 && r.bottom > topo + 6 && r.top < base - 6;
+  }
+  function pronta(t) { var im = t.firstElementChild; return !!im && im.tagName === "IMG" && im.complete && im.naturalWidth > 0; }
+  function sorteio(lista) { return lista[Math.floor(Math.random() * lista.length)]; }
+
+  function passoDinamico() {
+    if (reduzMovimento || document.hidden || !din.visivel || !modal.hidden || Date.now() < din.pausaAte) return;
+    var livres = Array.prototype.filter.call(grade.children, function (t) {
+      return t.classList.contains("mz-tile") && !din.ocupados.has(t) && !t.matches(":hover") && pronta(t) && emVista(t);
+    });
+    var pequenos = livres.filter(function (t) { return !t.classList.contains("mz-big"); });
+    var grandes = livres.filter(function (t) { return t.classList.contains("mz-big"); });
+    var pares = Math.random() < 0.35 ? 2 : 1;
+    for (var k = 0; k < pares; k++) {
+      var grupo = (grandes.length >= 2 && (pequenos.length < 2 || Math.random() < 0.25)) ? grandes : pequenos;
+      if (grupo.length < 2) return;
+      var a = grupo.splice(Math.floor(Math.random() * grupo.length), 1)[0];
+      // entre 3 candidatos, escolhe o mais distante: a troca fica bem visível
+      var cand = []; for (var j = 0; j < 3 && grupo.length; j++) cand.push(grupo[Math.floor(Math.random() * grupo.length)]);
+      var pa = pos(a), b = cand.sort(function (u, v) { var du = pos(u), dv = pos(v); return (Math.abs(dv.x - pa.x) + Math.abs(dv.y - pa.y)) - (Math.abs(du.x - pa.x) + Math.abs(du.y - pa.y)); })[0];
+      grupo.splice(grupo.indexOf(b), 1);
+      var nome = sorteio(NOMES_EFEITOS.filter(function (n) { return n !== din.ultimo; })); din.ultimo = nome;
+      trocar(a, b, nome);
+    }
+  }
+  function cicloDinamico() {
+    clearTimeout(din.timer);
+    din.timer = setTimeout(function () { passoDinamico(); cicloDinamico(); }, 2200 + Math.random() * 2300);
+  }
+  if (!reduzMovimento && "IntersectionObserver" in window && Element.prototype.animate) {
+    new IntersectionObserver(function (es) { din.visivel = es[0].isIntersecting; }, { threshold: 0.15 }).observe(moldura);
+    var pausar = function () { din.pausaAte = Date.now() + 1200; };
+    moldura.addEventListener("scroll", pausar, { passive: true });
+    window.addEventListener("scroll", pausar, { passive: true });
+    moldura.addEventListener("pointerdown", pausar, { passive: true });
+    cicloDinamico();
+  }
 
   // ---------- início ----------
   aoMudarTermos();
