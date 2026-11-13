@@ -952,7 +952,7 @@
     });
     var pequenos = livres.filter(function (t) { return !t.classList.contains("mz-big"); });
     var grandes = livres.filter(function (t) { return t.classList.contains("mz-big"); });
-    var pares = Math.random() < 0.35 ? 2 : 1;
+    var pares = Math.random() < 0.15 ? 2 : 1;
     for (var k = 0; k < pares; k++) {
       var grupo = (grandes.length >= 2 && (pequenos.length < 2 || Math.random() < 0.25)) ? grandes : pequenos;
       if (grupo.length < 2) return;
